@@ -111,6 +111,16 @@
     <string name="s_restart">Начать заново из другого города</string>
     <string name="s_restart_hint">Пройденный путь и паспорт будут стёрты.</string>
     <string name="s_restart_ok">Начать заново</string>
+    <string name="community">Сообщество</string>
+    <string name="community_text">«Кругосветку» делает один человек. Ошибки, идеи и новости — через бота StillCraft в Telegram.</string>
+    <string name="community_bug">Сообщить об ошибке</string>
+    <string name="community_bug_sub">Что-то сломалось или выглядит не так</string>
+    <string name="community_idea">Предложить идею</string>
+    <string name="community_idea_sub">Что сделало бы приложение лучше</string>
+    <string name="community_follow">Следить за обновлениями</string>
+    <string name="community_follow_sub">Сообщение, когда выйдет новая версия</string>
+    <string name="community_chat">Чат StillCraft</string>
+    <string name="community_chat_sub">Поговорить с теми, кто пользуется приложениями</string>
     <string name="s_credits">Карты: Natural Earth (общественное достояние). Погода: Open-Meteo и MET Norway. Шрифты: Cormorant и PT Serif (SIL OFL).</string>
     <string name="s_steps">Добавить шаги (проверка)</string>
 

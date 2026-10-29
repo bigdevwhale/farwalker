@@ -32,6 +32,7 @@ import app.farwalker.container
 import app.farwalker.domain.Town
 import app.farwalker.ui.Home
 import app.farwalker.ui.components.Btn
+import app.farwalker.ui.components.CommunityLinks
 import app.farwalker.ui.components.Field
 import app.farwalker.ui.components.PaperDialog
 import app.farwalker.ui.components.Rule
@@ -92,6 +93,9 @@ fun SettingsScreen(home: Home, onBack: () -> Unit) {
             }
             Rule(Modifier.padding(vertical = 14.dp))
         }
+        Text(stringResource(R.string.community), style = T.Heading)
+        CommunityLinks()
+        Rule(Modifier.padding(vertical = 14.dp))
         Text(stringResource(R.string.s_credits), style = T.Small)
         Text("v" + BuildConfig.VERSION_NAME, style = T.Small)
         Spacer(Modifier.height(24.dp))

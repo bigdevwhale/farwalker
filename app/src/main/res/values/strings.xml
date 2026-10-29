@@ -111,6 +111,16 @@
     <string name="s_restart">Start over from another town</string>
     <string name="s_restart_hint">The road walked and the passport will be let go.</string>
     <string name="s_restart_ok">Start over</string>
+    <string name="community">Community</string>
+    <string name="community_text">Farwalker is made by one person. Bugs, ideas and news go through the StillCraft bot in Telegram.</string>
+    <string name="community_bug">Report a bug</string>
+    <string name="community_bug_sub">Something broke or looks wrong</string>
+    <string name="community_idea">Suggest an idea</string>
+    <string name="community_idea_sub">What would make it better</string>
+    <string name="community_follow">Follow updates</string>
+    <string name="community_follow_sub">A message when a new version is out</string>
+    <string name="community_chat">StillCraft chat</string>
+    <string name="community_chat_sub">Talk to other people who use the apps</string>
     <string name="s_credits">Maps: Natural Earth (public domain). Weather: Open-Meteo and MET Norway. Fonts: Cormorant and PT Serif (SIL OFL).</string>
     <string name="s_steps">Add steps (test)</string>
 
