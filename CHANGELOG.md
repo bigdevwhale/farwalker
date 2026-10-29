@@ -6,6 +6,15 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.0.1] - 2026-10-29
+
+### Fixed
+- The app no longer freezes when you type your town on the first screens: the map stays smooth while the keyboard opens, and search answers at once.
+
+<!-- tg
+Кругосветка 1.0.1: приложение больше не зависает, когда на первом экране вводишь свой город
+-->
+
 ## [1.0.0] - 2026-10-29
 
 The traveller sets out.
