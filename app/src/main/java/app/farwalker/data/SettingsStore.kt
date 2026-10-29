@@ -21,6 +21,8 @@ data class Settings(
     val onboarded: Boolean = false,
     /** The length of a step, in cm: steps times this is the km walked. */
     val stride: Int = 72,
+    /** The walker's height in cm, if told: the stride is worked out from it. 0 is not told. */
+    val height: Int = 0,
     /** The weather where the traveller is, as last fetched. */
     val weather: WeatherNow? = null,
     /** News of the road (a new country, a ship in port) while the app is out of sight. */
@@ -28,6 +30,9 @@ data class Settings(
     /** How many of the journal's notes have been told already. */
     val told: Int = 0,
 )
+
+/** A walking step is about this share of the walker's height. */
+fun strideFor(height: Int): Int = Math.round(height * 0.415).toInt()
 
 class SettingsStore(context: Context) {
     private val store = context.applicationContext.dataStore
@@ -39,6 +44,7 @@ class SettingsStore(context: Context) {
         return Settings(
             onboarded = this[ONBOARDED] ?: false,
             stride = this[STRIDE] ?: 72,
+            height = this[HEIGHT] ?: 0,
             weather = if (sky != null) WeatherNow(sky, this[TEMP] ?: 0.0, this[WIND] ?: 0.0, this[WEATHER_AT] ?: 0, this[W_LAT] ?: 0.0, this[W_LON] ?: 0.0) else null,
             notify = this[NOTIFY] ?: true,
             told = this[TOLD] ?: 0,
@@ -52,6 +58,7 @@ class SettingsStore(context: Context) {
             val s = change(it.read())
             it[ONBOARDED] = s.onboarded
             it[STRIDE] = s.stride
+            it[HEIGHT] = s.height
             val w = s.weather
             if (w != null) {
                 it[SKY] = w.sky.name; it[TEMP] = w.temp; it[WIND] = w.wind; it[WEATHER_AT] = w.at; it[W_LAT] = w.lat; it[W_LON] = w.lon
@@ -66,6 +73,7 @@ class SettingsStore(context: Context) {
     private companion object {
         val ONBOARDED = booleanPreferencesKey("onboarded")
         val STRIDE = intPreferencesKey("stride")
+        val HEIGHT = intPreferencesKey("height")
         val SKY = stringPreferencesKey("sky")
         val TEMP = doublePreferencesKey("temp")
         val WIND = doublePreferencesKey("wind")

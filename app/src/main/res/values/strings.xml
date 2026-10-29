@@ -101,9 +101,12 @@
     <string name="j_today">Today</string>
 
     <string name="s_title">Settings</string>
+    <string name="s_height">Height</string>
+    <string name="s_height_v">%1$d cm, a step of about %2$d cm</string>
+    <string name="s_height_none">Not given: a step of 72 cm is assumed</string>
     <string name="s_stride">Step length</string>
     <string name="s_stride_v">%1$d cm</string>
-    <string name="s_stride_hint">Steps times the step length are the km walked. A step is about 0.4 of your height.</string>
+    <string name="s_stride_hint">Steps times the step length are the km walked. Set by your height; if you have measured your own step, set it here.</string>
     <string name="s_notify">News of the road</string>
     <string name="s_notify_hint">A new country, a cape, a ship in port.</string>
     <string name="s_language">Language</string>
@@ -131,6 +134,7 @@
     <string name="o_home_hint">Your town or the nearest big one</string>
     <string name="o_steps">The phone counts your steps</string>
     <string name="o_steps_text">The app reads the phone\'s own step counter. Nothing leaves the phone except the traveller\'s coordinates, sent for the weather where they are.</string>
+    <string name="o_height">Your height, so the steps turn into the right number of km</string>
     <string name="o_allow">Allow step counting</string>
     <string name="o_start">Set out</string>
     <string name="o_no_sensor">This phone has no step counter. Steps can still be added by hand in the settings.</string>

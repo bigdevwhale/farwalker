@@ -29,6 +29,7 @@ import androidx.core.os.LocaleListCompat
 import app.farwalker.BuildConfig
 import app.farwalker.R
 import app.farwalker.container
+import app.farwalker.data.strideFor
 import app.farwalker.domain.Town
 import app.farwalker.ui.Home
 import app.farwalker.ui.components.Btn
@@ -47,8 +48,21 @@ fun SettingsScreen(home: Home, onBack: () -> Unit) {
     val c = LocalContext.current.container
     val s = home.settings
     var stride by remember { mutableFloatStateOf(s.stride.toFloat()) }
+    var height by remember { mutableFloatStateOf(s.height.toFloat()) }
     var restart by remember { mutableStateOf(false) }
     Sheet(stringResource(R.string.s_title), onBack = onBack) {
+        Text(stringResource(R.string.s_height), style = T.Heading)
+        Text(
+            if (height > 0) stringResource(R.string.s_height_v, height.roundToInt(), strideFor(height.roundToInt())) else stringResource(R.string.s_height_none),
+            style = T.Body,
+        )
+        Slider(
+            if (height > 0) height else 173f, { height = it; stride = strideFor(it.roundToInt()).toFloat() }, valueRange = 120f..215f,
+            onValueChangeFinished = { c.write { settings.update { it.copy(height = height.roundToInt(), stride = strideFor(height.roundToInt())) } } },
+            colors = SliderDefaults.colors(thumbColor = C.red, activeTrackColor = C.red, inactiveTrackColor = C.paper2),
+        )
+        Rule(Modifier.padding(vertical = 14.dp))
+
         Text(stringResource(R.string.s_stride), style = T.Heading)
         Text(stringResource(R.string.s_stride_v, stride.roundToInt()), style = T.Body)
         Slider(

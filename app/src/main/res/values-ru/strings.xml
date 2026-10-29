@@ -101,9 +101,12 @@
     <string name="j_today">Сегодня</string>
 
     <string name="s_title">Настройки</string>
+    <string name="s_height">Рост</string>
+    <string name="s_height_v">%1$d см, шаг около %2$d см</string>
+    <string name="s_height_none">Не указан: считаем, что шаг 72 см</string>
     <string name="s_stride">Длина шага</string>
     <string name="s_stride_v">%1$d см</string>
-    <string name="s_stride_hint">Шаги, умноженные на длину шага, — это пройденные километры. Обычно шаг — около 0,4 роста.</string>
+    <string name="s_stride_hint">Шаги, умноженные на длину шага, — это пройденные километры. Её подбирают по росту, а если вы измерили свой шаг, поставьте его здесь.</string>
     <string name="s_notify">Вести с дороги</string>
     <string name="s_notify_hint">Новая страна, край земли, корабль в порту.</string>
     <string name="s_language">Язык</string>
@@ -131,6 +134,7 @@
     <string name="o_home_hint">Ваш город или ближайший крупный</string>
     <string name="o_steps">Шаги считает телефон</string>
     <string name="o_steps_text">Приложение берёт шаги из встроенного шагомера телефона. Наружу уходят только координаты путника — чтобы узнать погоду там, где он идёт.</string>
+    <string name="o_height">Ваш рост — чтобы шаги точнее пересчитывались в километры</string>
     <string name="o_allow">Разрешить счёт шагов</string>
     <string name="o_start">В путь</string>
     <string name="o_no_sensor">В этом телефоне нет шагомера. Шаги можно добавлять вручную в настройках.</string>

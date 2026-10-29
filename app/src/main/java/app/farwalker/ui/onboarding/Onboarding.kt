@@ -17,10 +17,13 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.farwalker.R
 import app.farwalker.container
+import app.farwalker.data.strideFor
 import app.farwalker.domain.Journey
 import app.farwalker.domain.Town
 import app.farwalker.ru
@@ -43,6 +47,7 @@ import app.farwalker.ui.components.Rule
 import app.farwalker.ui.theme.C
 import app.farwalker.ui.theme.T
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 /** Three pages: what this is, where the journey starts, and the step counter. */
 @Composable
@@ -52,6 +57,7 @@ fun Onboarding() {
     val words = remember { Words(ctx, ctx.ru, c.world) }
     var page by remember { mutableIntStateOf(0) }
     var home by remember { mutableStateOf<Town?>(null) }
+    var height by remember { mutableFloatStateOf(173f) }
     val camera = remember { Camera(lon = 15.0, lat = 25.0, k = 1.5) }
     // A traveller standing at the chosen home (or at Greenwich, before there is one), for the map.
     val preview = remember(home) {
@@ -98,6 +104,12 @@ fun Onboarding() {
                     Text(stringResource(R.string.o_steps), style = T.Title)
                     Text(stringResource(R.string.o_steps_text), style = T.Body)
                     if (!c.sensor.present) Text(stringResource(R.string.o_no_sensor), style = T.Italic)
+                    Text(stringResource(R.string.o_height), style = T.Body)
+                    Text(stringResource(R.string.s_height_v, height.roundToInt(), strideFor(height.roundToInt())), style = T.Heading)
+                    Slider(
+                        height, { height = it }, valueRange = 120f..215f,
+                        colors = SliderDefaults.colors(thumbColor = C.red, activeTrackColor = C.red, inactiveTrackColor = C.paper2),
+                    )
                     val perms = buildList {
                         if (Build.VERSION.SDK_INT >= 29) add(Manifest.permission.ACTIVITY_RECOGNITION)
                         if (Build.VERSION.SDK_INT >= 33) add(Manifest.permission.POST_NOTIFICATIONS)
@@ -109,7 +121,8 @@ fun Onboarding() {
                         val t = home ?: return@Btn
                         c.scope.launch {
                             c.trip.begin(t.id)
-                            c.settings.update { it.copy(onboarded = true) }
+                            val h = height.roundToInt()
+                            c.settings.update { it.copy(onboarded = true, height = h, stride = strideFor(h)) }
                         }
                     }
                 }

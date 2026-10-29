@@ -85,9 +85,13 @@ class Camera(lon: Double = 0.0, lat: Double = 30.0, k: Double = 40.0) {
     }
 }
 
-/** A frame's projection: plate carrée squeezed by the cosine of the centre's latitude. */
+/**
+ * A frame's projection: plate carrée squeezed by the cosine of the centre's latitude. Zoomed out, the
+ * squeeze eases off towards an even grid, or the whole world would be pressed narrow under a northern camera.
+ */
 private class Proj(val cam: Camera, val w: Float, val h: Float, val focusY: Float, density: Float) {
-    val cos = cos(Math.toRadians(cam.lat)).coerceAtLeast(0.25)
+    private val near = ((ln(cam.k) - ln(3.0)) / (ln(16.0) - ln(3.0))).coerceIn(0.0, 1.0)
+    val cos = cos(Math.toRadians(cam.lat)).coerceAtLeast(0.85 - 0.6 * near)
     /** Pixels to a degree: the camera counts in dp, so the map looks the same on every screen. */
     val ky = cam.k * density
     val kx = ky * cos
