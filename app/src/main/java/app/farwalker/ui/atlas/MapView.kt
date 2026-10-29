@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.sp
@@ -238,7 +239,7 @@ private fun DrawScope.drawBase(world: World, j: Journey, p: Proj, text: TextMeas
     val hatch = 3.6f * dp
     var y = (p.cy % hatch)
     while (y < size.height) {
-        drawLine(C.sea.copy(alpha = 0.17f), Offset(0f, y), Offset(size.width, y), 0.7f * dp)
+        drawLine(C.sea.copy(alpha = 0.12f), Offset(0f, y), Offset(size.width, y), 0.7f * dp)
         y += hatch
     }
     graticule(p)
@@ -267,7 +268,7 @@ private fun DrawScope.drawBase(world: World, j: Journey, p: Proj, text: TextMeas
     val near = (p.cam.k / 12).coerceIn(0.3, 1.0).toFloat()
     val ripples = floatArrayOf(13f * near, 8.5f * near, 4.5f * near)
     for ((i, r) in ripples.withIndex()) {
-        drawPath(land, C.sea.copy(alpha = 0.26f + i * 0.1f), style = Stroke(width = (2 * r + 1.1f) * dp, join = StrokeJoin.Round))
+        drawPath(land, C.sea.copy(alpha = 0.18f + i * 0.08f), style = Stroke(width = (2 * r + 1.1f) * dp, join = StrokeJoin.Round))
         drawPath(land, C.paper, style = Stroke(width = (2 * r - 0.3f) * dp, join = StrokeJoin.Round))
     }
     drawPath(land, C.land)
@@ -310,7 +311,7 @@ private fun DrawScope.graticule(p: Proj) {
         p.cam.k < 40 -> 5
         else -> 1
     }
-    val color = C.sea.copy(alpha = 0.3f)
+    val color = C.sea.copy(alpha = 0.18f)
     val w = 0.6f * density
     var lat = floor(p.latBottom / step) * step
     while (lat <= p.latTop) {
@@ -332,20 +333,20 @@ private fun DrawScope.countryNames(world: World, p: Proj, text: TextMeasurer, ru
         val across = sqrt(c.area) * p.kx
         if (across < 60 * density) continue
         val sp = when {
-            across > 900 * density -> 19
-            across > 400 * density -> 16
-            across > 160 * density -> 13
-            else -> 11
+            across > 900 * density -> 21
+            across > 400 * density -> 18
+            across > 160 * density -> 15
+            else -> 12
         }
         val name = c.name(ru).uppercase()
-        val style = T.Map.copy(fontSize = sp.sp, color = C.ink.copy(alpha = 0.55f))
+        val style = T.Map.copy(fontSize = sp.sp, color = C.muted)
         val m = text.measure(name, style)
         if (m.size.width > across * 1.25) continue
         val at = Offset(p.x(c.labelLon) - m.size.width / 2f, p.y(c.labelLat) - m.size.height / 2f)
         val box = Rect(at, Size(m.size.width.toFloat(), m.size.height.toFloat()))
         if (placed.any { it.overlaps(box) }) continue
         placed += box
-        drawText(m, topLeft = at)
+        label(text, name, style, at, halo = 2.6f)
     }
 }
 
@@ -410,47 +411,94 @@ private fun DrawScope.segment(lat1: Double, lon1: Double, lat2: Double, lon2: Do
     }
 }
 
+/** A name on the map with a halo of paper round its letters, so no line or hatching runs through it. */
+private fun DrawScope.label(text: TextMeasurer, name: String, style: TextStyle, at: Offset, halo: Float = 3.2f) {
+    // The halo is the name in paper, laid eight times round where the ink goes.
+    val ring = text.measure(name, style.copy(color = C.paper))
+    val r = halo / 2 * density
+    for (i in 0 until 8) {
+        val a = i * Math.PI / 4
+        drawText(ring, topLeft = at + Offset((cos(a) * r).toFloat(), (kotlin.math.sin(a) * r).toFloat()))
+    }
+    drawText(text.measure(name, style), topLeft = at)
+}
+
+/**
+ * The towns, in three ranks so the eye has somewhere to land: where the traveller is, the next town
+ * and the goal in bold upright letters; the towns on the way and the capitals in plain ones; the rest
+ * small, pale and only when there's room.
+ */
 private fun DrawScope.towns(world: World, j: Journey, travel: Travel, p: Proj, text: TextMeasurer, ru: Boolean) {
     val placed = mutableListOf<Rect>()
-    val marked = LinkedHashSet<Int>()
-    if (j.dest >= 0) marked += j.dest
-    marked += j.town
-    travel.next(j)?.let { marked += it }
-    for (v in j.trail) if (world.town(v.town).capital || world.town(v.town).cape) marked += v.town
-    for (leg in j.legs) marked += travel.router.to(leg)
-    for (v in j.trail.asReversed().take(200)) marked += v.town
+    val here = travel.sleepTown(j)
+    val next = travel.next(j)
+    val key = listOfNotNull(here, next, j.town, j.dest.takeIf { it >= 0 }).toSet()
+    val way = LinkedHashSet<Int>()
+    for (leg in j.legs) way += travel.router.to(leg)
+    val walked = LinkedHashSet<Int>()
+    for (v in j.trail.asReversed().take(300)) walked += v.town
     val k = p.cam.k
-    val extra = world.ranked.asSequence().filter {
-        when {
-            it.cape -> k > 2
-            it.capital -> k > 3.5
-            it.pop >= 3_000_000 -> k > 6
-            it.pop >= 800_000 -> k > 12
-            it.pop >= 200_000 -> k > 30
-            else -> k > 70
-        }
-    }
-    val order = marked.map { world.town(it) } + extra
-    val seen = HashSet<Int>()
     val s = density
-    for (t in order) {
-        if (!seen.add(t.id)) continue
-        if (!p.visible(t.lat, t.lon, 10f)) continue
-        val x = p.x(t.lon)
-        val y = p.y(t.lat)
-        val named = t.id in marked && (t.id == j.dest || t.id == j.town || t.capital || t.cape || k > 10) || t.id !in marked
-        val r = if (t.capital) 3.4f * s else 2.4f * s
-        drawCircle(C.land, r, Offset(x, y))
-        drawCircle(C.ink, r, Offset(x, y), style = Stroke(1f * s))
-        if (t.capital) drawCircle(C.ink, 1.1f * s, Offset(x, y))
-        if (!named) continue
-        val style = if (t.capital) T.MapTown.copy(fontSize = 13.sp) else T.MapTown.copy(fontSize = 12.sp, color = C.ink.copy(alpha = 0.85f))
-        val m = text.measure(t.name(ru), style)
-        val at = Offset(x + r + 3 * s, y - m.size.height / 2f)
-        val box = Rect(at, Size(m.size.width.toFloat(), m.size.height.toFloat()))
-        if (placed.any { it.overlaps(box) }) continue
+    // The traveller's own spot is kept clear for the marker; the key towns may still sit beside it.
+    val (lat, lon) = travel.position(j)
+    val marker = Rect(Offset(p.x(lon) - 12 * s, p.y(lat) - 12 * s), Size(24 * s, 24 * s))
+
+    // Small marks for every town walked through or ahead: the beads of the road.
+    for (id in walked + way) {
+        val t = world.town(id)
+        if (id in key || !p.visible(t.lat, t.lon, 6f)) continue
+        val o = Offset(p.x(t.lon), p.y(t.lat))
+        drawCircle(C.land, 2.2f * s, o)
+        drawCircle(C.ink, 2.2f * s, o, style = Stroke(0.9f * s))
+    }
+
+    fun put(t: app.farwalker.domain.Town, style: TextStyle, dot: Float, color: Color = C.ink, must: Boolean = false): Boolean {
+        if (!p.visible(t.lat, t.lon, 10f)) return false
+        val o = Offset(p.x(t.lon), p.y(t.lat))
+        val m = text.measure(t.name(ru), style.copy(color = color))
+        val size = Size(m.size.width.toFloat(), m.size.height.toFloat())
+        val gap = dot + 4 * s
+        // Right of the dot, left, above, below; a key town takes the first spot even if crowded.
+        val spots = listOf(
+            Rect(Offset(o.x + gap, o.y - size.height / 2), size),
+            Rect(Offset(o.x - gap - size.width, o.y - size.height / 2), size),
+            Rect(Offset(o.x - size.width / 2, o.y - gap - size.height), size),
+            Rect(Offset(o.x - size.width / 2, o.y + gap), size),
+        )
+        val box = spots.firstOrNull { b -> !b.overlaps(marker) && placed.none { it.overlaps(b) } }
+            ?: spots.firstOrNull { b -> !b.overlaps(marker) }.takeIf { must } ?: return false
         placed += box
-        drawText(m, topLeft = at)
+        if (dot > 0) {
+            drawCircle(C.land, dot, o)
+            drawCircle(color, dot, o, style = Stroke(1.3f * s))
+            drawCircle(color, dot * 0.38f, o)
+        }
+        label(text, t.name(ru), style.copy(color = color), box.topLeft)
+        return true
+    }
+
+    val bold = TextStyle(fontFamily = app.farwalker.ui.theme.Cormorant, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+    val plain = TextStyle(fontFamily = app.farwalker.ui.theme.Cormorant, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+    val small = T.MapTown.copy(fontSize = 12.sp)
+    if (j.dest >= 0) put(world.town(j.dest), bold, 4.5f * s, C.red, must = true)
+    next?.let { put(world.town(it), bold, 4.5f * s, must = true) }
+    if (here != next) put(world.town(here), bold, 4.5f * s, must = true)
+    if (j.town != here && j.town != next) put(world.town(j.town), plain, 3.4f * s, must = true)
+    placed += marker
+    // The towns ahead on the way, nearest first, while they have room.
+    for (id in way) if (id !in key) put(world.town(id), plain, 0f)
+    for (t in world.ranked) {
+        if (t.id in key || t.id in way) continue
+        val show = when {
+            t.cape -> k > 2
+            t.capital -> k > 3.5
+            t.pop >= 3_000_000 -> k > 8
+            t.pop >= 800_000 -> k > 18
+            t.pop >= 200_000 -> k > 45
+            else -> k > 110
+        }
+        if (!show) continue
+        if (t.capital || t.cape) put(t, plain, 3.2f * s) else put(t, small, 2.4f * s, C.ink.copy(alpha = 0.7f))
     }
 }
 

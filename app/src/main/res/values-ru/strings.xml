@@ -33,7 +33,8 @@
     <string name="j_station">Сошли с поезда: %1$s</string>
 
     <string name="day_n">День %1$d</string>
-    <string name="next_in">%1$s — через %2$s км</string>
+    <string name="leg_left">ещё %1$s км</string>
+    <string name="on_road">В дороге</string>
     <string name="resting">Отдых в городе</string>
     <string name="goal">Цель: %1$s · %2$s км</string>
     <string name="no_goal">Цели пока нет. Дорога открыта во все стороны.</string>

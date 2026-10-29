@@ -33,7 +33,8 @@
     <string name="j_station">Got off the train: %1$s</string>
 
     <string name="day_n">Day %1$d</string>
-    <string name="next_in">%1$s in %2$s km</string>
+    <string name="leg_left">%1$s km to go</string>
+    <string name="on_road">On the road</string>
     <string name="resting">Resting in town</string>
     <string name="goal">Goal: %1$s · %2$s km</string>
     <string name="no_goal">No goal yet. The road is open in every direction.</string>

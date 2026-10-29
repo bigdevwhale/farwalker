@@ -170,16 +170,17 @@ private fun Panel(home: Home, onGoal: () -> Unit) {
             val title = when {
                 ride?.mode == Mode.TRAIN -> stringResource(R.string.on_train, w.town(lastStop(home, j)))
                 ride?.mode == Mode.SHIP -> stringResource(R.string.at_sea, w.town(lastStop(home, j)))
+                // Between two towns the strip below names them both.
+                j.at > 0 -> stringResource(R.string.on_road)
                 else -> w.town(here)
             }
             Text(title, style = T.Title, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            val line = when {
-                ride != null -> stringResource(R.string.arrives, Instant.ofEpochMilli(ride.end).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern(if (home.ru) "d MMM, HH:mm" else "MMM d, HH:mm")))
-                ship != null -> stringResource(R.string.sea_waits)
-                next != null && j.legs.isNotEmpty() -> stringResource(R.string.next_in, w.town(next), w.km(home.world.edge(j.legs[0].edge).km - j.at))
-                else -> stringResource(R.string.resting)
+            when {
+                ride != null -> Text(stringResource(R.string.arrives, Instant.ofEpochMilli(ride.end).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern(if (home.ru) "d MMM, HH:mm" else "MMM d, HH:mm"))), style = T.Italic)
+                ship != null -> Text(stringResource(R.string.sea_waits), style = T.Italic)
+                next != null && j.legs.isNotEmpty() -> LegStrip(home, j.town, next, j.at, home.world.edge(j.legs[0].edge).km.toDouble())
+                else -> Text(stringResource(R.string.resting), style = T.Italic)
             }
-            Text(line, style = T.Italic)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Stat(stringResource(R.string.today), stringResource(R.string.km_n, w.km(home.kmToday)), Modifier.weight(1f), sub = stringResource(R.string.steps_n, w.group(home.stepsToday.toLong())))
                 Stat(stringResource(R.string.purse), w.coins(floor(j.coins).toInt()), Modifier.weight(1f))
@@ -212,6 +213,40 @@ private fun Panel(home: Home, onGoal: () -> Unit) {
         }
     }
     if (tickets) Tickets(home, trains, onClose = { tickets = false })
+}
+
+/**
+ * The road underfoot at a glance: the town behind, the town ahead, the red line walked between
+ * them and the traveller on it.
+ */
+@Composable
+private fun LegStrip(home: Home, from: Int, to: Int, at: Double, len: Double) {
+    val w = home.words
+    val f = (at / len).coerceIn(0.0, 1.0).toFloat()
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Canvas(Modifier.fillMaxWidth().height(18.dp)) {
+            val s = density
+            val y = size.height / 2
+            val x0 = 6 * s
+            val x1 = size.width - 6 * s
+            val xf = x0 + (x1 - x0) * f
+            drawLine(C.red, Offset(xf, y), Offset(x1, y), 2f * s, androidx.compose.ui.graphics.StrokeCap.Round,
+                androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(0.1f, 5 * s)))
+            drawLine(C.red, Offset(x0, y), Offset(xf, y), 2.6f * s)
+            drawCircle(C.ink, 4.5f * s, Offset(x0, y))
+            drawCircle(C.paper, 4.5f * s, Offset(x1, y))
+            drawCircle(C.ink, 4.5f * s, Offset(x1, y), style = Stroke(1.4f * s))
+            drawCircle(C.red, 7f * s, Offset(xf, y))
+            drawCircle(C.ink, 7f * s, Offset(xf, y), style = Stroke(1.4f * s))
+            drawCircle(C.paper, 2.2f * s, Offset(xf, y))
+        }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+            Text(w.town(from), style = T.Sub, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(stringResource(R.string.leg_left, w.km(len - at)), style = T.Body.copy(color = C.red), modifier = Modifier.padding(horizontal = 8.dp))
+            Text(w.town(to), style = T.Body.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold), modifier = Modifier.weight(1f), maxLines = 1,
+                overflow = TextOverflow.Ellipsis, textAlign = androidx.compose.ui.text.style.TextAlign.End)
+        }
+    }
 }
 
 /** Where the current ride ends. */
