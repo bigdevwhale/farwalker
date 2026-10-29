@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Кругосветка</string>
+    <string name="channel_road">Вести с дороги</string>
+    <string name="channel_walk">В пути</string>
+    <string name="walk_title">Путник в дороге</string>
+    <string name="walk_text">Шаги считаются, пока приложение свёрнуто.</string>
+
+    <string name="tab_atlas">Атлас</string>
+    <string name="tab_passport">Паспорт</string>
+    <string name="tab_journal">Дневник</string>
+
+    <string name="n_country_t">Новая страна</string>
+    <string name="n_country">В паспорте новый штамп: %1$s.</string>
+    <string name="n_continent_t">Новая часть света</string>
+    <string name="n_continent">%1$s. Путь дошёл до новой части света.</string>
+    <string name="n_cape_t">Край земли</string>
+    <string name="n_cape">%1$s. Дальше дороги нет.</string>
+    <string name="n_arrived_t">Вы на месте</string>
+    <string name="n_arrived">%1$s. Куда теперь?</string>
+    <string name="n_docked_t">Земля!</string>
+    <string name="n_docked">Корабль причалил. Порт: %1$s.</string>
+    <string name="n_station_t">Конечная</string>
+    <string name="n_station">Поезд прибыл. Станция: %1$s.</string>
+
+    <string name="j_start">Вышли из дома: %1$s</string>
+    <string name="j_country">Новая страна: %1$s</string>
+    <string name="j_border">Снова здесь: %1$s</string>
+    <string name="j_continent">Новая часть света: %1$s</string>
+    <string name="j_cape">Край земли: %1$s</string>
+    <string name="j_arrived">Цель достигнута: %1$s</string>
+    <string name="j_docked">Сошли на берег: %1$s</string>
+    <string name="j_station">Сошли с поезда: %1$s</string>
+
+    <string name="day_n">День %1$d</string>
+    <string name="next_in">%1$s — через %2$s км</string>
+    <string name="resting">Отдых в городе</string>
+    <string name="goal">Цель: %1$s · %2$s км</string>
+    <string name="no_goal">Цели пока нет. Дорога открыта во все стороны.</string>
+    <string name="where_to">Куда идём?</string>
+    <string name="change_goal">Сменить цель</string>
+    <string name="sail_to">Отплыть: %1$s</string>
+    <string name="short_of">не хватает %1$s</string>
+    <string name="on_train">В поезде, до станции %1$s</string>
+    <string name="at_sea">В море, курс на %1$s</string>
+    <string name="arrives">прибытие %1$s</string>
+    <string name="there">там %1$s</string>
+    <string name="today">Сегодня</string>
+    <string name="km_n">%1$s км</string>
+    <string name="steps_n">шагов: %1$s</string>
+    <string name="purse">Кошелёк</string>
+    <string name="tickets">Билеты</string>
+    <string name="ticket_train">Монета — это %1$s км поездом.</string>
+    <string name="cancel">Отмена</string>
+    <string name="close">Закрыть</string>
+    <string name="sea_waits">Дальше путь лежит по морю. Билет на корабль зарабатывается шагами.</string>
+
+    <string name="sky_clear">ясно</string>
+    <string name="sky_cloudy">облачно</string>
+    <string name="sky_overcast">пасмурно</string>
+    <string name="sky_fog">туман</string>
+    <string name="sky_drizzle">морось</string>
+    <string name="sky_rain">дождь</string>
+    <string name="sky_storm">гроза</string>
+    <string name="sky_snow">снег</string>
+    <string name="sky_sleet">мокрый снег</string>
+
+    <string name="goal_title">Куда держим путь?</string>
+    <string name="goal_hint">Город, страна или мыс</string>
+    <string name="goal_near">Страны поблизости</string>
+    <string name="goal_capes">Края земли</string>
+    <string name="goal_way">Всего %1$s км</string>
+    <string name="goal_sea">из них морем %1$s км</string>
+    <string name="goal_countries">По пути: %1$s</string>
+    <string name="goal_days">Пешком в вашем темпе — около %1$s</string>
+    <string name="goal_go">В путь</string>
+    <string name="goal_none">Отсюда туда дороги нет.</string>
+    <string name="goal_stop">Остановиться здесь</string>
+
+    <string name="passport">Паспорт</string>
+    <string name="p_states">Государства</string>
+    <string name="p_lands">Другие земли</string>
+    <string name="p_parts">Части света</string>
+    <string name="p_capes">Края земли</string>
+    <string name="p_of">%1$d из %2$d</string>
+    <string name="p_foot">Пешком</string>
+    <string name="p_train">Поездом</string>
+    <string name="p_sea">Морем</string>
+    <string name="p_first">Впервые — %1$s</string>
+    <string name="p_via">въезд: %1$s</string>
+    <string name="p_times">Въездов: %1$d</string>
+    <string name="p_stamps">Штампы</string>
+
+    <string name="journal">Дневник</string>
+    <string name="j_night">Ночлег: %1$s</string>
+    <string name="j_on_train">в поезде</string>
+    <string name="j_at_sea">в море</string>
+    <string name="j_empty">Первая ночь в дороге ещё впереди.</string>
+    <string name="j_today">Сегодня</string>
+
+    <string name="s_title">Настройки</string>
+    <string name="s_stride">Длина шага</string>
+    <string name="s_stride_v">%1$d см</string>
+    <string name="s_stride_hint">Шаги, умноженные на длину шага, — это пройденные километры. Обычно шаг — около 0,4 роста.</string>
+    <string name="s_notify">Вести с дороги</string>
+    <string name="s_notify_hint">Новая страна, край земли, корабль в порту.</string>
+    <string name="s_language">Язык</string>
+    <string name="s_lang_system">Как в системе</string>
+    <string name="s_restart">Начать заново из другого города</string>
+    <string name="s_restart_hint">Пройденный путь и паспорт будут стёрты.</string>
+    <string name="s_restart_ok">Начать заново</string>
+    <string name="s_credits">Карты: Natural Earth (общественное достояние). Погода: Open-Meteo и MET Norway. Шрифты: Cormorant и PT Serif (SIL OFL).</string>
+    <string name="s_steps">Добавить шаги (проверка)</string>
+
+    <string name="o_title">Кругосветка</string>
+    <string name="o_text">Ваши шаги ведут путника по настоящей карте мира: по дорогам, через границы и моря.\n\nЗа каждый пройденный километр — монета на поезд или корабль. Мир большой, и это путешествие на годы.</string>
+    <string name="o_next">Дальше</string>
+    <string name="o_home">Откуда выходим?</string>
+    <string name="o_home_hint">Ваш город или ближайший крупный</string>
+    <string name="o_steps">Шаги считает телефон</string>
+    <string name="o_steps_text">Приложение берёт шаги из встроенного шагомера телефона. Наружу уходят только координаты путника — чтобы узнать погоду там, где он идёт.</string>
+    <string name="o_allow">Разрешить счёт шагов</string>
+    <string name="o_start">В путь</string>
+    <string name="o_no_sensor">В этом телефоне нет шагомера. Шаги можно добавлять вручную в настройках.</string>
+
+    <plurals name="coins">
+        <item quantity="one">%1$s монета</item>
+        <item quantity="few">%1$s монеты</item>
+        <item quantity="many">%1$s монет</item>
+        <item quantity="other">%1$s монеты</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%1$s день</item>
+        <item quantity="few">%1$s дня</item>
+        <item quantity="many">%1$s дней</item>
+        <item quantity="other">%1$s дня</item>
+    </plurals>
+</resources>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Farwalker</string>
+    <string name="channel_road">News of the road</string>
+    <string name="channel_walk">On the road</string>
+    <string name="walk_title">The traveller is on the road</string>
+    <string name="walk_text">Steps are counted while the app is in the background.</string>
+
+    <string name="tab_atlas">Atlas</string>
+    <string name="tab_passport">Passport</string>
+    <string name="tab_journal">Journal</string>
+
+    <string name="n_country_t">A new country</string>
+    <string name="n_country">A new stamp in the passport: %1$s.</string>
+    <string name="n_continent_t">A new part of the world</string>
+    <string name="n_continent">%1$s. The journey has reached a new part of the world.</string>
+    <string name="n_cape_t">The end of the earth</string>
+    <string name="n_cape">%1$s. Beyond it, there is no road.</string>
+    <string name="n_arrived_t">You\'re there</string>
+    <string name="n_arrived">%1$s. Where to next?</string>
+    <string name="n_docked_t">Land!</string>
+    <string name="n_docked">The ship has docked. Port: %1$s.</string>
+    <string name="n_station_t">Last stop</string>
+    <string name="n_station">The train has arrived. Station: %1$s.</string>
+
+    <string name="j_start">Set out from home: %1$s</string>
+    <string name="j_country">New country: %1$s</string>
+    <string name="j_border">Back in %1$s</string>
+    <string name="j_continent">New part of the world: %1$s</string>
+    <string name="j_cape">End of the earth: %1$s</string>
+    <string name="j_arrived">Goal reached: %1$s</string>
+    <string name="j_docked">Came ashore: %1$s</string>
+    <string name="j_station">Got off the train: %1$s</string>
+
+    <string name="day_n">Day %1$d</string>
+    <string name="next_in">%1$s in %2$s km</string>
+    <string name="resting">Resting in town</string>
+    <string name="goal">Goal: %1$s · %2$s km</string>
+    <string name="no_goal">No goal yet. The road is open in every direction.</string>
+    <string name="where_to">Where to?</string>
+    <string name="change_goal">Change goal</string>
+    <string name="sail_to">Sail to %1$s</string>
+    <string name="short_of">%1$s short</string>
+    <string name="on_train">On the train to %1$s</string>
+    <string name="at_sea">At sea, bound for %1$s</string>
+    <string name="arrives">arrives %1$s</string>
+    <string name="there">%1$s there</string>
+    <string name="today">Today</string>
+    <string name="km_n">%1$s km</string>
+    <string name="steps_n">%1$s steps</string>
+    <string name="purse">Purse</string>
+    <string name="tickets">Tickets</string>
+    <string name="ticket_train">A coin buys %1$s km by train.</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="sea_waits">The road goes on by sea. Walking earns the passage.</string>
+
+    <string name="sky_clear">clear</string>
+    <string name="sky_cloudy">cloudy</string>
+    <string name="sky_overcast">overcast</string>
+    <string name="sky_fog">fog</string>
+    <string name="sky_drizzle">drizzle</string>
+    <string name="sky_rain">rain</string>
+    <string name="sky_storm">thunderstorm</string>
+    <string name="sky_snow">snow</string>
+    <string name="sky_sleet">sleet</string>
+
+    <string name="goal_title">Where to?</string>
+    <string name="goal_hint">A town, a country or a cape</string>
+    <string name="goal_near">Countries nearby</string>
+    <string name="goal_capes">Ends of the earth</string>
+    <string name="goal_way">%1$s km in all</string>
+    <string name="goal_sea">%1$s km of it by sea</string>
+    <string name="goal_countries">On the way: %1$s</string>
+    <string name="goal_days">About %1$s on foot at your pace</string>
+    <string name="goal_go">Set out</string>
+    <string name="goal_none">No way there from here.</string>
+    <string name="goal_stop">Stop and stay here</string>
+
+    <string name="passport">Passport</string>
+    <string name="p_states">States</string>
+    <string name="p_lands">Other lands</string>
+    <string name="p_parts">Parts of the world</string>
+    <string name="p_capes">Ends of the earth</string>
+    <string name="p_of">%1$d of %2$d</string>
+    <string name="p_foot">On foot</string>
+    <string name="p_train">By train</string>
+    <string name="p_sea">By sea</string>
+    <string name="p_first">First entered on %1$s</string>
+    <string name="p_via">at %1$s</string>
+    <string name="p_times">Entered %1$d times</string>
+    <string name="p_stamps">Stamps</string>
+
+    <string name="journal">Journal</string>
+    <string name="j_night">Night: %1$s</string>
+    <string name="j_on_train">on the train</string>
+    <string name="j_at_sea">at sea</string>
+    <string name="j_empty">The first night on the road is still ahead.</string>
+    <string name="j_today">Today</string>
+
+    <string name="s_title">Settings</string>
+    <string name="s_stride">Step length</string>
+    <string name="s_stride_v">%1$d cm</string>
+    <string name="s_stride_hint">Steps times the step length are the km walked. A step is about 0.4 of your height.</string>
+    <string name="s_notify">News of the road</string>
+    <string name="s_notify_hint">A new country, a cape, a ship in port.</string>
+    <string name="s_language">Language</string>
+    <string name="s_lang_system">System</string>
+    <string name="s_restart">Start over from another town</string>
+    <string name="s_restart_hint">The road walked and the passport will be let go.</string>
+    <string name="s_restart_ok">Start over</string>
+    <string name="s_credits">Maps: Natural Earth (public domain). Weather: Open-Meteo and MET Norway. Fonts: Cormorant and PT Serif (SIL OFL).</string>
+    <string name="s_steps">Add steps (test)</string>
+
+    <string name="o_title">Farwalker</string>
+    <string name="o_text">Your steps carry a traveller across the real map of the world: along its roads, over its borders, across its seas.\n\nEvery kilometre walked earns a coin for a train or a ship. The world is big: this is a journey of years.</string>
+    <string name="o_next">Next</string>
+    <string name="o_home">Where do you set out from?</string>
+    <string name="o_home_hint">Your town or the nearest big one</string>
+    <string name="o_steps">The phone counts your steps</string>
+    <string name="o_steps_text">The app reads the phone\'s own step counter. Nothing leaves the phone except the traveller\'s coordinates, sent for the weather where they are.</string>
+    <string name="o_allow">Allow step counting</string>
+    <string name="o_start">Set out</string>
+    <string name="o_no_sensor">This phone has no step counter. Steps can still be added by hand in the settings.</string>
+
+    <plurals name="coins">
+        <item quantity="one">%1$s coin</item>
+        <item quantity="other">%1$s coins</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%1$s day</item>
+        <item quantity="other">%1$s days</item>
+    </plurals>
+</resources>
