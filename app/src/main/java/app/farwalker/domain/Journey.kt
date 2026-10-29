@@ -16,8 +16,11 @@ class Ride(val mode: Mode, val legs: Int, val km: Double, val start: Long, var d
 /** A country's page in the passport: first come on [day] at [town], [entries] times in all. */
 class Stamp(val iso: String, val day: Long, val town: Int, var entries: Int = 1)
 
-/** Where the traveller slept. [km] are the day's walked kilometres, [mode] how the day ended. */
-class Night(val day: Long, val town: Int, val iso: String, val km: Double, val mode: Mode)
+/**
+ * Where the traveller slept: in [town], or on the road from it to [next], [at] km out. [km] are the
+ * day's walked kilometres, [mode] how the day ended.
+ */
+class Night(val day: Long, val town: Int, val iso: String, val km: Double, val mode: Mode, val next: Int = -1, val at: Double = 0.0)
 
 /** A town reached, in order: the line the map draws behind the traveller. */
 class Visit(val town: Int, val mode: Mode, val day: Long)
@@ -312,7 +315,8 @@ class Travel(val world: World) {
         }
         if (j.lastDay in 0 until day) {
             val last = j.lastDay
-            j.nights += Night(last, sleepTown(j), j.iso, j.dayKm[last] ?: 0.0, j.ride?.mode ?: Mode.WALK)
+            val on = if (j.at > 0) next(j) ?: -1 else -1
+            j.nights += Night(last, j.town, j.iso, j.dayKm[last] ?: 0.0, j.ride?.mode ?: Mode.WALK, on, if (on >= 0) j.at else 0.0)
             j.lastDay = day
         }
         return out

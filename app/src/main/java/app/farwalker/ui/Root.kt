@@ -92,7 +92,14 @@ fun FarwalkerRoot(settings: Settings) {
     var now by remember { mutableStateOf(ZonedDateTime.now()) }
     LaunchedEffect(Unit) {
         c.trip.refresh()
-        while (true) { delay(20_000); now = ZonedDateTime.now(); c.trip.tick() }
+        while (true) {
+            // The weather throttles itself to once an hour; asking here also covers a first open,
+            // when the journey wasn't read yet as the app came to the front.
+            runCatching { c.refreshWeather() }
+            delay(20_000)
+            now = ZonedDateTime.now()
+            c.trip.tick()
+        }
     }
     // While the app is open: read the counter as it ticks, move the journey on, fetch the weather.
     LifecycleResumeEffect(Unit) {

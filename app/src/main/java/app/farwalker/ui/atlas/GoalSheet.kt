@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.farwalker.R
@@ -46,6 +47,7 @@ fun GoalSheet(home: Home, onClose: () -> Unit, onSet: () -> Unit) {
     val w = home.words
     val world = home.world
     val j = home.j
+    val focus = LocalFocusManager.current
     var query by remember { mutableStateOf("") }
     var picked by remember { mutableStateOf<Town?>(null) }
     var preview by remember { mutableStateOf<Preview?>(null) }
@@ -115,7 +117,7 @@ fun GoalSheet(home: Home, onClose: () -> Unit, onSet: () -> Unit) {
             Rule()
         }
         if (query.length >= 2) {
-            for (t in results) TownRow(home, t) { picked = t }
+            for (t in results) TownRow(home, t) { picked = t; focus.clearFocus() }
         } else {
             Section(stringResource(R.string.goal_near))
             for (t in near) TownRow(home, t) { picked = t }

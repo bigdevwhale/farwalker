@@ -93,6 +93,7 @@
 
     <string name="journal">Дневник</string>
     <string name="j_night">Ночлег: %1$s</string>
+    <string name="j_road">%1$s → %2$s, в %3$s км от города</string>
     <string name="j_on_train">в поезде</string>
     <string name="j_at_sea">в море</string>
     <string name="j_empty">Первая ночь в дороге ещё впереди.</string>

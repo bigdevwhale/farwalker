@@ -1,6 +1,24 @@
 package app.farwalker.ui.atlas
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
+import androidx.compose.ui.graphics.drawscope.withTransform
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlin.math.abs
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.runtime.Composable
@@ -134,13 +152,85 @@ fun AtlasMap(
             })
         }
     else Modifier
+    // Its own measurer: the sheet may be drawn on a background thread while the screen measures town names.
+    val sheetText = rememberTextMeasurer(cacheSize = 64)
+    val scope = rememberCoroutineScope()
+    val base = remember { BaseLayer(scope) }
+    // The zoom once the fingers have rested: the cached sheet is drawn again, sharp, at that scale.
+    var rested by remember { mutableDoubleStateOf(camera.k) }
+    LaunchedEffect(camera) {
+        snapshotFlow { camera.k }.collectLatest { delay(220); rested = it }
+    }
+    val key = Triple(j.iso, j.stamps.size, ru)
     Canvas(modifier.then(gestures)) {
         val p = Proj(camera, size.width, size.height, focusY, density)
-        drawAtlas(world, j, travel, p, text, ru, bottomInset)
+        base.draw(this, p, key, rested) { bp -> drawBase(world, j, bp, sheetText, ru) }
+        drawLive(world, j, travel, p, text, ru, bottomInset)
     }
 }
 
-private fun DrawScope.drawAtlas(world: World, j: Journey, travel: Travel, p: Proj, text: TextMeasurer, ru: Boolean, bottomInset: Float) {
+/**
+ * The still part of the map (sea, land, coasts, colouring, country names) is costly to draw: it is
+ * drawn once into a sheet larger than the screen, and the sheet is moved and stretched under the
+ * fingers. It's drawn afresh when the view leaves it, the colouring changes, or a zoom comes to rest.
+ */
+private class BaseLayer(private val scope: CoroutineScope) {
+    /** One drawn sheet: where its centre was, at what scale. */
+    private class Sheet(val img: ImageBitmap, val key: Any, val lon: Double, val lat: Double, val k: Double, val kx: Double, val ky: Double, val cy: Float)
+
+    private var sheet: Sheet? = null
+    private var job: Job? = null
+    /** Bumped when a sheet drawn in the background is ready, to draw the frame again. */
+    private var ready by mutableIntStateOf(0)
+    private val margin = 0.3f
+
+    fun draw(scope: DrawScope, p: Proj, key: Any, rested: Double, render: DrawScope.(Proj) -> Unit) = with(scope) {
+        ready
+        val w = (size.width * (1 + 2 * margin)).toInt()
+        val h = (size.height * (1 + 2 * margin)).toInt()
+        val cur = sheet
+        if (cur == null || cur.key != key || cur.img.width != w || cur.img.height != h) {
+            // Nothing to show meanwhile: draw it now.
+            job?.cancel(); job = null
+            sheet = paint(p, key, w, h, density, layoutDirection, render)
+        } else {
+            val sx = (p.kx / cur.kx).toFloat()
+            val sy = (p.ky / cur.ky).toFloat()
+            val left = p.x(cur.lon) - w / 2f * sx
+            val top = p.y(cur.lat) - cur.cy * sy
+            val covers = left <= 0 && top <= 0 && left + w * sx >= size.width && top + h * sy >= size.height
+            val stale = !covers || sy !in 0.7f..1.45f || (abs(cur.k - p.cam.k) > 1e-9 && abs(rested - p.cam.k) < 1e-9)
+            if (stale && job == null) {
+                // The old sheet stays on screen, moved and stretched, while the new one is drawn aside.
+                val snap = Camera(p.cam.lon, p.cam.lat, p.cam.k)
+                val q = Proj(snap, p.w, p.h, p.cy / p.h, density)
+                val d = density
+                val dir = layoutDirection
+                job = this@BaseLayer.scope.launch {
+                    val fresh = withContext(Dispatchers.Default) { paint(q, key, w, h, d, dir, render) }
+                    sheet = fresh
+                    job = null
+                    ready++
+                }
+            }
+            if (!covers) drawRect(C.paper)
+            withTransform({ translate(left, top); scale(sx, sy, Offset.Zero) }) { drawImage(cur.img, filterQuality = FilterQuality.Low) }
+            return@with
+        }
+        val s = sheet!!
+        drawImage(s.img, topLeft = Offset(-size.width * margin, -size.height * margin))
+    }
+
+    private fun paint(p: Proj, key: Any, w: Int, h: Int, density: Float, dir: androidx.compose.ui.unit.LayoutDirection, render: DrawScope.(Proj) -> Unit): Sheet {
+        val img = ImageBitmap(w, h, ImageBitmapConfig.Rgb565)
+        val fy = (p.cy + p.h * margin) / h
+        val bp = Proj(Camera(p.cam.lon, p.cam.lat, p.cam.k), w.toFloat(), h.toFloat(), fy, density)
+        CanvasDrawScope().draw(androidx.compose.ui.unit.Density(density), dir, Canvas(img), Size(w.toFloat(), h.toFloat())) { render(bp) }
+        return Sheet(img, key, bp.cam.lon, bp.cam.lat, bp.cam.k, bp.kx, bp.ky, bp.cy)
+    }
+}
+
+private fun DrawScope.drawBase(world: World, j: Journey, p: Proj, text: TextMeasurer, ru: Boolean) {
     val dp = density
     drawRect(C.paper)
 
@@ -187,6 +277,9 @@ private fun DrawScope.drawAtlas(world: World, j: Journey, travel: Travel, p: Pro
     drawPath(land, C.ink.copy(alpha = 0.78f), style = Stroke(width = 0.9f * dp, join = StrokeJoin.Round))
 
     countryNames(world, p, text, ru)
+}
+
+private fun DrawScope.drawLive(world: World, j: Journey, travel: Travel, p: Proj, text: TextMeasurer, ru: Boolean, bottomInset: Float) {
     trail(world, j, travel, p)
     ahead(world, j, travel, p)
     towns(world, j, travel, p, text, ru)
@@ -327,7 +420,7 @@ private fun DrawScope.towns(world: World, j: Journey, travel: Travel, p: Proj, t
     for (leg in j.legs) marked += travel.router.to(leg)
     for (v in j.trail.asReversed().take(200)) marked += v.town
     val k = p.cam.k
-    val extra = world.towns.asSequence().filter {
+    val extra = world.ranked.asSequence().filter {
         when {
             it.cape -> k > 2
             it.capital -> k > 3.5
@@ -336,7 +429,7 @@ private fun DrawScope.towns(world: World, j: Journey, travel: Travel, p: Proj, t
             it.pop >= 200_000 -> k > 30
             else -> k > 70
         }
-    }.sortedWith(compareBy({ !it.capital }, { -it.pop }))
+    }
     val order = marked.map { world.town(it) } + extra
     val seen = HashSet<Int>()
     val s = density
@@ -419,9 +512,11 @@ private fun DrawScope.scaleBar(p: Proj, text: TextMeasurer, ru: Boolean, bottomI
     val s = density
     val x0 = 16 * s
     val y0 = size.height - bottomInset - 18 * s
-    drawRect(C.ink, Offset(x0, y0), Size(w, 3 * s), style = Stroke(0.8f * s))
-    drawRect(C.ink, Offset(x0, y0), Size(w / 2, 3 * s))
     val label = (if (nice >= 1) "%,d".format(nice.toLong()).replace(',', ' ') else "%.1f".format(nice)) + if (ru) " км" else " km"
     val m = text.measure(label, TextStyle(fontFamily = T.MapTown.fontFamily, fontSize = 12.sp, color = C.ink))
+    // A patch of paper under the bar, so town names don't run through it.
+    drawRect(C.paper.copy(alpha = 0.85f), Offset(x0 - 6 * s, y0 - m.size.height / 2f - 2 * s), Size(w + m.size.width + 18 * s, m.size.height + 4 * s))
+    drawRect(C.ink, Offset(x0, y0), Size(w, 3 * s), style = Stroke(0.8f * s))
+    drawRect(C.ink, Offset(x0, y0), Size(w / 2, 3 * s))
     drawText(m, topLeft = Offset(x0 + w + 6 * s, y0 - m.size.height / 2f + 1.5f * s))
 }

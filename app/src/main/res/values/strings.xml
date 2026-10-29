@@ -93,6 +93,7 @@
 
     <string name="journal">Journal</string>
     <string name="j_night">Night: %1$s</string>
+    <string name="j_road">%1$s → %2$s, %3$s km out</string>
     <string name="j_on_train">on the train</string>
     <string name="j_at_sea">at sea</string>
     <string name="j_empty">The first night on the road is still ahead.</string>

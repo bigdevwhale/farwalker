@@ -97,6 +97,9 @@ class World(
 
     val states: Int = countries.values.count { it.state }
 
+    /** The towns in the order the map names them: capitals first, then by size. */
+    val ranked: List<Town> by lazy { towns.sortedWith(compareBy({ !it.capital }, { -it.pop })) }
+
     fun country(iso: String): Country? = countries[iso]
     fun town(id: Int): Town = towns[id]
     fun edge(id: Int): Edge = edges[id]

@@ -65,7 +65,11 @@ private fun PageRow(home: Home, p: Page) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
             val km = if (today) home.kmToday else p.night?.km ?: (home.j.dayKm[p.day] ?: 0.0)
             p.night?.let { n ->
-                val where = w.town(n.town) + (modeWord(n.mode)?.let { ", " + stringResource(it) } ?: "")
+                val where = when {
+                    modeWord(n.mode) != null -> stringResource(modeWord(n.mode)!!)
+                    n.next >= 0 -> stringResource(R.string.j_road, w.town(n.town), w.town(n.next), w.km(n.at))
+                    else -> w.town(n.town)
+                }
                 Text(stringResource(R.string.j_night, where), style = T.Body)
                 Text(w.country(n.iso), style = T.Small)
             }
