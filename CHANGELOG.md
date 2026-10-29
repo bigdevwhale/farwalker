@@ -6,6 +6,19 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.0.2] - 2026-10-29
+
+### Added
+- Your height, on the first screens and in the settings: the step length is worked out from it, so the steps turn into the right number of km. A measured step can still be set by hand.
+
+### Fixed
+- Zoomed out, the world keeps its shape instead of being pressed narrow when the traveller is far north.
+
+<!-- tg
+Кругосветка 1.0.2: длина шага теперь считается по росту — укажите его в настройках, и километры станут точнее
+Карта мира при отдалении больше не сплющивается
+-->
+
 ## [1.0.1] - 2026-10-29
 
 ### Fixed
