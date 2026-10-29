@@ -29,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -163,7 +164,8 @@ fun AtlasMap(
         snapshotFlow { camera.k }.collectLatest { delay(220); rested = it }
     }
     val key = Triple(j.iso, j.stamps.size, ru)
-    Canvas(modifier.then(gestures)) {
+    // The cached sheet is larger than the screen: clip it to the map's own bounds.
+    Canvas(modifier.clipToBounds().then(gestures)) {
         val p = Proj(camera, size.width, size.height, focusY, density)
         base.draw(this, p, key, rested) { bp -> drawBase(world, j, bp, sheetText, ru) }
         drawLive(world, j, travel, p, text, ru, bottomInset)

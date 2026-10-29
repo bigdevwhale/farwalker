@@ -56,7 +56,7 @@ fun Onboarding() {
     // A traveller standing at the chosen home (or at Greenwich, before there is one), for the map.
     val preview = remember(home) {
         Journey().also { j ->
-            val t = home ?: c.world.towns.first { it.en == "London" }
+            val t = home ?: c.world.towns.first { it.en == "London" && it.iso == "GBR" }
             c.travel.begin(j, t.id, 0)
         }
     }
