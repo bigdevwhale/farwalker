@@ -192,17 +192,20 @@ private class BaseLayer(private val scope: CoroutineScope) {
         val w = (size.width * (1 + 2 * margin)).toInt()
         val h = (size.height * (1 + 2 * margin)).toInt()
         val cur = sheet
-        if (cur == null || cur.key != key || cur.img.width != w || cur.img.height != h) {
+        if (cur == null) {
             // Nothing to show meanwhile: draw it now.
-            job?.cancel(); job = null
             sheet = paint(p, key, w, h, density, layoutDirection, render)
         } else {
+            // A resize (the keyboard opening) or new colouring: the old sheet stays up until the new one is ready.
+            val cw = cur.img.width
+            val ch = cur.img.height
             val sx = (p.kx / cur.kx).toFloat()
             val sy = (p.ky / cur.ky).toFloat()
-            val left = p.x(cur.lon) - w / 2f * sx
+            val left = p.x(cur.lon) - cw / 2f * sx
             val top = p.y(cur.lat) - cur.cy * sy
-            val covers = left <= 0 && top <= 0 && left + w * sx >= size.width && top + h * sy >= size.height
-            val stale = !covers || sy !in 0.7f..1.45f || (abs(cur.k - p.cam.k) > 1e-9 && abs(rested - p.cam.k) < 1e-9)
+            val covers = left <= 0 && top <= 0 && left + cw * sx >= size.width && top + ch * sy >= size.height
+            val stale = !covers || cur.key != key || cw != w || ch != h || sy !in 0.7f..1.45f ||
+                (abs(cur.k - p.cam.k) > 1e-9 && abs(rested - p.cam.k) < 1e-9)
             if (stale && job == null) {
                 // The old sheet stays on screen, moved and stretched, while the new one is drawn aside.
                 val snap = Camera(p.cam.lon, p.cam.lat, p.cam.k)
@@ -220,8 +223,7 @@ private class BaseLayer(private val scope: CoroutineScope) {
             withTransform({ translate(left, top); scale(sx, sy, Offset.Zero) }) { drawImage(cur.img, filterQuality = FilterQuality.Low) }
             return@with
         }
-        val s = sheet!!
-        drawImage(s.img, topLeft = Offset(-size.width * margin, -size.height * margin))
+        drawImage(sheet!!.img, topLeft = Offset(-size.width * margin, -size.height * margin))
     }
 
     private fun paint(p: Proj, key: Any, w: Int, h: Int, density: Float, dir: androidx.compose.ui.unit.LayoutDirection, render: DrawScope.(Proj) -> Unit): Sheet {

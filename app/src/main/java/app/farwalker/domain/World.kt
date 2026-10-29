@@ -112,14 +112,19 @@ class World(
 
     fun nearest(lat: Double, lon: Double): Town = towns.minBy { Geo.km(lat, lon, it.lat, it.lon) }
 
+    /** The names as search compares them, folded once: English and Russian of each town in turn. */
+    private val folded: Array<String> by lazy { Array(towns.size * 2) { fold(if (it % 2 == 0) towns[it / 2].en else towns[it / 2].ru) } }
+    private val foldedCountries by lazy { countries.values.map { Triple(it, fold(it.en), fold(it.ru)) } }
+    private val capitals: Map<String, Town> by lazy { countries.keys.mapNotNull { iso -> capitalOf(iso)?.let { iso to it } }.toMap() }
+
     /** Towns, capes and countries (as their capitals) matching what was typed, best first. */
     fun search(query: String, limit: Int = 30): List<Town> {
         val q = fold(query)
         if (q.length < 2) return emptyList()
         val hits = mutableListOf<Pair<Int, Town>>()
         for (t in towns) {
-            val a = fold(t.en)
-            val b = fold(t.ru)
+            val a = folded[t.id * 2]
+            val b = folded[t.id * 2 + 1]
             val rank = when {
                 a == q || b == q -> 0
                 a.startsWith(q) || b.startsWith(q) -> 1
@@ -128,17 +133,16 @@ class World(
             }
             hits += (rank * 10 - if (t.capital || t.cape) 5 else 0) to t
         }
-        for (c in countries.values) {
-            val a = fold(c.en)
-            val b = fold(c.ru)
-            if (a.startsWith(q) || b.startsWith(q)) capitalOf(c.iso)?.let { hits += -1 to it }
+        for ((c, a, b) in foldedCountries) {
+            if (a.startsWith(q) || b.startsWith(q)) capitals[c.iso]?.let { hits += -1 to it }
         }
         return hits.sortedWith(compareBy({ it.first }, { -it.second.pop })).map { it.second }.distinctBy { it.id }.take(limit)
     }
 
     companion object {
+        private val marks = Regex("\\p{Mn}+")
         fun fold(s: String): String =
-            Normalizer.normalize(s.lowercase(), Normalizer.Form.NFD).replace(Regex("\\p{Mn}+"), "").replace('ё', 'е')
+            Normalizer.normalize(s.lowercase(), Normalizer.Form.NFD).replace(marks, "").replace('ё', 'е')
 
         fun load(countries: InputStream, towns: InputStream, edges: InputStream, shapes: InputStream): World {
             val cs = countries.bufferedReader().readLines().filter { it.isNotBlank() }.map { l ->

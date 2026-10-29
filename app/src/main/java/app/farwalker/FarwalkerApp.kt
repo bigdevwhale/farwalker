@@ -63,6 +63,8 @@ class FarwalkerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
+        // Load the world and fold its names for search before the first keystroke needs them.
+        container.scope.launch { container.world.search("aa") }
         if (BuildConfig.DEMO) container.scope.launch { DemoSeed.seedIfEmpty(this@FarwalkerApp, container) }
         runCatching { Alarms.schedule(this) }
     }
