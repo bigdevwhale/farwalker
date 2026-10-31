@@ -1,0 +1,40 @@
+The world is big. Farwalker lets you walk round it, one real step at a time.
+
+Pick your home town and a goal: any town, any country, any end of the earth. Your phone's own step counter moves a traveller along the real roads of the world, kilometre for kilometre, over its borders and across its seas. Walking from Lisbon to Moscow takes months; going round the world takes years. Free, no ads, no account.
+
+🗺 THE REAL WORLD
+• 195 states and 47 other lands, 5,500 towns, roads that keep to land with every border along them
+• Sea lanes and the great crossings, real bridges and tunnels: the Øresund, the Channel Tunnel
+• 22 ends of the earth wait: Cabo da Roca, Nordkapp, Cape Horn, Cape Dezhnev, the South Pole
+
+👣 WALK
+• The phone's own step counter, with the app closed too
+• The step length worked out from your height, or measured by hand
+• The traveller walks a road kilometre for kilometre: no shortcuts, no teleports
+
+🪙 COINS, TRAINS AND SHIPS
+• Every kilometre walked is a coin
+• A coin buys 8 km by train, from wherever you are to a station ahead, or 15 km by sea from a port
+• Trains and ships run on the real clock: Lisbon to New York takes about nine real days at sea
+
+🛂 THE PASSPORT
+• A stamp for every border crossed, cut from the country's code
+• The parts of the world fill in; km on foot, by train and by sea
+
+🕰 WHERE THE TRAVELLER IS
+• The local time where they stand, and the real weather there
+• News of the road: a new country, a border, a cape, a port, the end of the way
+
+📖 THE JOURNAL
+• Where each night was spent: on the road between two towns, on a train or at sea
+• The borders and the ports of every day
+
+🖋 THE ENGRAVED ATLAS
+• Hatched seas, ripples along the coasts, hand-coloured borders of the countries you've stamped
+• The red line walked, the railway in black and white
+
+ALSO
+• English and Russian
+• Free and open source (MIT)
+
+Privacy: no account, no ads, no analytics. Your steps and your journey stay on your phone. The only network request is the weather where the traveller is: their map coordinates go to Open-Meteo or MET Norway, nothing else.

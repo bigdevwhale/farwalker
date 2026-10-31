@@ -65,6 +65,13 @@ android {
     androidResources {
         generateLocaleConfig = true
     }
+    // Play otherwise installs only the device's languages from the AAB,
+    // and the in-app switch to Russian would find no Russian strings.
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
