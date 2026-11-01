@@ -6,6 +6,8 @@
 
 *Ваши шаги ведут путника по настоящей карте мира: по дорогам, через границы и моря. Каждый пройденный километр — монета на поезд или корабль. Каждая граница — штамп в паспорте. Мир большой, и это путешествие на годы. Бесплатно, без рекламы и регистрации.*
 
+[![Google Play](https://img.shields.io/badge/Google_Play-скачать-34A853?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=app.farwalker)
+
 [English](README.md) · **Русский** · [Изменения](CHANGELOG.md)
 
 <img src="docs/screenshots/ru/1-atlas.jpg" width="200" /> <img src="docs/screenshots/ru/2-atlas-far.jpg" width="200" /> <img src="docs/screenshots/ru/4-passport.jpg" width="200" /> <img src="docs/screenshots/ru/5-journal.jpg" width="200" />
@@ -23,6 +25,12 @@
 5. **Паспорт.** Каждая пересечённая граница — штамп, у каждой страны свой: 195 государств и 47 других земель. Заполняются части света, и ждут 22 края земли: мыс Рока, Нордкап, мыс Горн, мыс Дежнёва, Южный полюс.
 6. **Где вы сейчас.** Местное время там, где стоит путник, и настоящая погода.
 7. **Дневник.** Где ночевали, сколько прошли, какие границы и порты остались позади.
+
+## Скачать
+
+**[Скачать в Google Play](https://play.google.com/store/apps/details?id=app.farwalker)**.
+
+Или возьмите **Farwalker.apk** в [последнем релизе](https://github.com/bigdevwhale/farwalker/releases/latest) и откройте на телефоне (разрешите установку из браузера или файлового менеджера, когда Android спросит). Android 9 и новее.
 
 ## Приватность
 

@@ -7,6 +7,7 @@
 *Your steps carry a traveller across the real map of the world: along its roads, over its borders, across its seas. Every kilometre walked is a coin for a train or a ship's passage. Every border is a stamp in the passport. The world is big: this is a journey of years. Free, no ads, no account.*
 
 [![Android CI](https://github.com/bigdevwhale/farwalker/actions/workflows/android.yml/badge.svg)](https://github.com/bigdevwhale/farwalker/actions/workflows/android.yml)
+[![Google Play](https://img.shields.io/badge/Google_Play-get_it-34A853?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=app.farwalker)
 ![Android 9+](https://img.shields.io/badge/Android-9%2B-3C9D50?logo=android&logoColor=white)
 ![Languages](https://img.shields.io/badge/lang-EN%20%7C%20RU-6C77B6)
 [![License: MIT](https://img.shields.io/badge/license-MIT-4C7A35)](LICENSE)
@@ -28,6 +29,12 @@
 5. **The passport.** Every border crossed is a stamp, cut from the country's code: 195 states and 47 other lands. The parts of the world fill in, and 22 ends of the earth wait: Cabo da Roca, Nordkapp, Cape Horn, Cape Dezhnev, the South Pole.
 6. **Where you are.** The local time where the traveller stands, and the real weather there.
 7. **The journal.** Where you slept each night, how far you walked, the borders and the ports.
+
+## Download
+
+**[Get it on Google Play](https://play.google.com/store/apps/details?id=app.farwalker)**.
+
+Or get **Farwalker.apk** from the [latest release](https://github.com/bigdevwhale/farwalker/releases/latest) and open it on your phone (allow installing from your browser or file manager when asked). Android 9 or newer.
 
 ## Privacy
 
