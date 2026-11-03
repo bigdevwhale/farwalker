@@ -91,6 +91,27 @@ class Trip(private val file: File, val travel: Travel, private val stride: suspe
         }
     }
 
+    /**
+     * Day totals from Health Connect: whatever they hold beyond the journey's own count for those days is
+     * walked along the road. The step counter's baseline is dropped, so going back to it later starts afresh.
+     */
+    suspend fun health(totals: Map<Long, Long>, at: Long = System.currentTimeMillis()): List<Note> {
+        val m = stride()
+        return change { jj ->
+            val out = mutableListOf<Note>()
+            if (jj.started) {
+                for ((day, n) in Steps.catchUp(jj.days, totals).toSortedMap()) {
+                    jj.days[day] = (jj.days[day] ?: 0) + n
+                    out += travel.walk(jj, n * m / 1000.0, day)
+                }
+                out += travel.tick(jj, at, today())
+            }
+            jj.lastValue = -1
+            jj.lastAt = 0
+            out
+        }
+    }
+
     /** Steps added by hand (debug and demo builds). */
     suspend fun addSteps(n: Int): List<Note> {
         val m = stride()

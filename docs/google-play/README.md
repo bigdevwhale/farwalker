@@ -143,8 +143,19 @@ python tools/play.py   # atlas, world, passport, goal, journal, road
 
 **Financial features** — *My app doesn't provide any financial features.*
 
-**Health apps** — отметьте **Activity and fitness** (шагомер). Health Connect, медицинские функции
+**Health apps** — отметьте **Activity and fitness** (шагомер) и **Health Connect**; медицинские функции
 и прочее — не отмечать.
+
+**Health Connect permissions** (App content → Health Connect, появится после загрузки AAB с `health.READ_STEPS`)
+- `READ_STEPS` — *Activity and fitness*. Обоснование:
+  > Farwalker turns the user's steps into a traveller's walk across a map of the world. If the user chooses
+  > Health Connect in settings instead of the phone's own step counter, the app reads only the daily step
+  > totals (Samsung Health, Mi Fitness, a watch or band put them there), so the traveller walks as far as the
+  > user did. Steps stay on the device; nothing is written to Health Connect or shared.
+- `READ_HEALTH_DATA_IN_BACKGROUND` — чтобы путник шёл дальше, пока приложение закрыто (периодическая
+  работа WorkManager раз в 15 минут), так же, как со встроенным счётчиком шагов.
+- Ссылка на политику: PRIVACY.md (раздел о Health Connect и Limited Use в нём есть); в приложении она
+  открывается с экрана разрешений Health Connect.
 
 **Advertising ID** — *No* (рекламы и SDK аналитики нет, разрешения `AD_ID` в сборке нет).
 

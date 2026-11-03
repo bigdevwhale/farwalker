@@ -1,5 +1,6 @@
 package app.farwalker.ui.settings
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +42,7 @@ import app.farwalker.ui.components.Rule
 import app.farwalker.ui.components.Sheet
 import app.farwalker.ui.theme.C
 import app.farwalker.ui.theme.T
+import app.farwalker.work.HealthSteps
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -71,6 +74,10 @@ fun SettingsScreen(home: Home, onBack: () -> Unit) {
             colors = SliderDefaults.colors(thumbColor = C.red, activeTrackColor = C.red, inactiveTrackColor = C.paper2),
         )
         Text(stringResource(R.string.s_stride_hint), style = T.Small)
+        Rule(Modifier.padding(vertical = 14.dp))
+
+        Text(stringResource(R.string.s_source), style = T.Heading)
+        StepSource(s.healthFrom >= 0)
         Rule(Modifier.padding(vertical = 14.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -115,6 +122,54 @@ fun SettingsScreen(home: Home, onBack: () -> Unit) {
         Spacer(Modifier.height(24.dp))
     }
     if (restart) Restart(home, onDone = { restart = false; onBack() }, onCancel = { restart = false })
+}
+
+/** Where the steps come from: the phone's own counter, or Health Connect. */
+@Composable
+private fun StepSource(health: Boolean) {
+    val ctx = LocalContext.current
+    val c = ctx.container
+    // null while asking Health Connect whether reading is still allowed.
+    var allowed by remember { mutableStateOf<Boolean?>(null) }
+    LaunchedEffect(health) { allowed = c.health.allowed() }
+    // Why tapping Health Connect didn't switch to it.
+    var note by remember { mutableStateOf<Int?>(null) }
+    fun useHealth() = c.write {
+        settings.update { it.copy(healthFrom = java.time.LocalDate.now().toEpochDay()) }
+        sync()
+    }
+    val ask = rememberLauncherForActivityResult(HealthSteps.requestContract()) { got ->
+        allowed = HealthSteps.READ in got
+        if (allowed == true) { note = null; useHealth() } else note = R.string.health_denied
+    }
+    fun pickHealth() {
+        when {
+            c.health.available -> ask.launch(c.health.permissions())
+            c.health.installable -> { note = R.string.health_install; runCatching { ctx.startActivity(c.health.storeIntent()) } }
+            else -> note = R.string.health_none
+        }
+    }
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 6.dp)) {
+        Btn(stringResource(R.string.s_source_phone), Modifier.weight(1f), primary = !health) {
+            note = null
+            c.write { settings.update { it.copy(healthFrom = -1) }; sync() }
+        }
+        Btn(stringResource(R.string.s_source_health), Modifier.weight(1f), primary = health) { pickHealth() }
+    }
+    val status = when {
+        !health -> note ?: if (c.sensor.allowed && c.sensor.present) R.string.steps_ok else R.string.steps_off
+        allowed == null -> null
+        allowed == true -> R.string.health_ok
+        c.health.available -> R.string.health_denied
+        c.health.installable -> R.string.health_install
+        else -> R.string.health_none
+    }
+    status?.let { Text(stringResource(it), style = T.Body) }
+    if (health && allowed == false) {
+        if (c.health.available) Btn(stringResource(R.string.health_allow), Modifier.fillMaxWidth().padding(top = 6.dp)) { pickHealth() }
+        else if (c.health.installable) Btn(stringResource(R.string.health_get), Modifier.fillMaxWidth().padding(top = 6.dp)) { pickHealth() }
+    }
+    Text(stringResource(R.string.s_source_hint), style = T.Small)
 }
 
 @Composable

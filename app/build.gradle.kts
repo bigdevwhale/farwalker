@@ -111,6 +111,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.health.connect)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     testImplementation(libs.junit)

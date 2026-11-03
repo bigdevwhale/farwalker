@@ -1,6 +1,6 @@
 # Farwalker — Privacy Policy
 
-*Last updated: 31 October 2026*
+*Last updated: 3 November 2026*
 
 Farwalker is a pedometer for Android in which your real steps walk a traveller across the real map of the world.
 It is published as open source at <https://github.com/bigdevwhale/farwalker>.
@@ -14,12 +14,21 @@ We run no server, so nothing you do in the app ever reaches us.
 
 The app keeps the following only in its private storage on your phone:
 
-- your steps: the readings of the phone's own step counter and the distance walked each day;
+- your steps: the readings of the phone's own step counter (or the daily totals from Health Connect) and the distance walked each day;
 - the journey: your home town, the goal, the way walked, the coins, the tickets, the passport stamps and the journal;
 - your settings (language, height and step length, notifications).
 
-Steps are read from the phone's built-in step counter sensor. The app does not use Google Fit or
-Health Connect and never sends your steps anywhere. Your home town is the one you pick from the app's
+Steps are read from the phone's built-in step counter sensor. Only if you choose Health Connect in
+settings and allow it there, the app instead reads your step count (the number of steps per day,
+nothing else) from Health Connect, where your health and fitness apps keep it. The app only reads
+steps: it writes nothing to Health Connect, reads no other health data, and never sends your steps
+anywhere. You can withdraw the permission at any time in Health Connect.
+
+The use of information received from Health Connect adheres to the
+[Health Connect Permissions policy](https://support.google.com/googleplay/android-developer/answer/12991134),
+including the Limited Use requirements.
+
+Your home town is the one you pick from the app's
 own list of towns; the search runs on the phone. Your phone's GPS location is never used.
 
 ## The weather
@@ -40,6 +49,8 @@ identifier, no steps. These services' own privacy policies apply to the requests
 ## Permissions
 
 - **Physical activity** — to read the phone's step counter.
+- **Health Connect: steps** (only if chosen in settings) — to read the steps per day; and, where the phone
+  offers it, to read them in the background, so the traveller walks on while the app is closed.
 - **Notifications** — news of the road (a new country, a border, a port, the end of the way) and the quiet
   notification shown while steps are counted with the app in the background.
 - **Foreground service (health)** — to keep counting steps while the app is minimized or the screen is locked.
@@ -61,7 +72,7 @@ Questions: open an issue at <https://github.com/bigdevwhale/farwalker/issues>.
 
 # Кругосветка (Farwalker) — Политика конфиденциальности
 
-*Обновлено: 31 октября 2026*
+*Обновлено: 3 ноября 2026*
 
 «Кругосветка» — шагомер под Android, в котором ваши настоящие шаги ведут путника по настоящей карте мира.
 Код открыт: <https://github.com/bigdevwhale/farwalker>.
@@ -75,12 +86,21 @@ Questions: open an issue at <https://github.com/bigdevwhale/farwalker/issues>.
 
 Только в собственном хранилище приложения на телефоне:
 
-- шаги: показания встроенного счётчика шагов телефона и пройденное за каждый день;
+- шаги: показания встроенного счётчика шагов телефона (или итоги за день из Health Connect) и пройденное за каждый день;
 - путешествие: ваш город, цель, пройденный путь, монеты, билеты, штампы в паспорте и дневник;
 - настройки (язык, рост и длина шага, уведомления).
 
-Шаги берутся со встроенного датчика шагов телефона. Приложение не использует Google Fit и Health Connect
-и никуда не отправляет ваши шаги. Свой город вы выбираете из списка городов внутри приложения, поиск
+Шаги берутся со встроенного датчика шагов телефона. Только если вы выбрали в настройках Health Connect
+и разрешили это там, приложение вместо этого читает из Health Connect количество шагов (число шагов
+за день, и ничего больше), которое туда складывают ваши приложения для здоровья и фитнеса. Приложение
+только читает шаги: ничего не записывает в Health Connect, не читает других данных о здоровье и никуда
+не отправляет ваши шаги. Разрешение можно отозвать в любой момент в Health Connect.
+
+Использование данных, полученных из Health Connect, соответствует
+[правилам разрешений Health Connect](https://support.google.com/googleplay/android-developer/answer/12991134),
+включая требования об ограниченном использовании (Limited Use).
+
+Свой город вы выбираете из списка городов внутри приложения, поиск
 работает на телефоне. GPS телефона не используется.
 
 ## Погода
@@ -101,6 +121,8 @@ Questions: open an issue at <https://github.com/bigdevwhale/farwalker/issues>.
 ## Разрешения
 
 - **Физическая активность** — чтобы читать счётчик шагов телефона.
+- **Health Connect: шаги** (только если выбрано в настройках) — чтобы читать шаги за день, а где телефон
+  это позволяет — и в фоне, чтобы путник шёл дальше, пока приложение закрыто.
 - **Уведомления** — вести с дороги (новая страна, граница, порт, конец пути) и тихое уведомление, пока
   шаги считаются со свёрнутым приложением.
 - **Фоновая служба (здоровье)** — чтобы шаги считались, когда приложение свёрнуто или экран заблокирован.

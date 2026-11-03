@@ -12,6 +12,7 @@ import app.farwalker.domain.Travel
 import app.farwalker.domain.Weather
 import app.farwalker.domain.World
 import app.farwalker.work.Alarms
+import app.farwalker.work.HealthSteps
 import app.farwalker.work.StepSensor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.time.LocalDate
 
 class AppContainer(context: Context) {
     val app = context.applicationContext
@@ -30,6 +32,7 @@ class AppContainer(context: Context) {
     val travel by lazy { Travel(world) }
     val trip by lazy { Trip(File(app.filesDir, "journey.json"), travel, stride = { settings.now().stride / 100.0 }) }
     val sensor = StepSensor(app)
+    val health = HealthSteps(app)
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     /** Fire-and-forget so a write survives the screen being closed right after tapping. */
@@ -49,10 +52,23 @@ class AppContainer(context: Context) {
         settings.update { it.copy(weather = now) }
     }
 
-    /** Reads the step counter and moves the journey on. */
+    /** Reads the steps (the phone's counter, or Health Connect if chosen) and moves the journey on. */
     suspend fun sync() {
+        val from = settings.now().healthFrom
+        if (from >= 0) {
+            // A week back at most: watches and bands may hand over a day's steps only when they next sync.
+            val today = LocalDate.now()
+            val start = maxOf(LocalDate.ofEpochDay(from), today.minusDays(HEALTH_DAYS))
+            val totals = health.days(start, today)
+            if (totals != null) trip.health(totals) else trip.tick()
+            return
+        }
         val v = sensor.read()
         if (v != null) trip.reading(v) else trip.tick()
+    }
+
+    private companion object {
+        const val HEALTH_DAYS = 6L
     }
 }
 

@@ -102,17 +102,24 @@ fun FarwalkerRoot(settings: Settings) {
         }
     }
     // While the app is open: read the counter as it ticks, move the journey on, fetch the weather.
-    LifecycleResumeEffect(Unit) {
+    val health = settings.healthFrom >= 0
+    LifecycleResumeEffect(health) {
         now = ZonedDateTime.now()
         WalkService.stop(ctx)
         val job = c.scope.launch {
             c.trip.tick()
             Notes.seen(ctx)
             launch { runCatching { c.refreshWeather() } }
-            if (c.sensor.allowed) c.sensor.live().conflate().collect { v -> c.trip.reading(v); Notes.seen(ctx); delay(1000) }
+            if (health) {
+                // Health Connect keeps the steps itself; asking now and then is enough.
+                while (true) { c.sync(); Notes.seen(ctx); delay(60_000) }
+            } else if (c.sensor.allowed) {
+                c.sensor.live().conflate().collect { v -> c.trip.reading(v); Notes.seen(ctx); delay(1000) }
+            }
         }
         // Out of sight: a quiet foreground service keeps counting until it's open again.
-        onPauseOrDispose { job.cancel(); WalkService.start(ctx) }
+        // Not needed with Health Connect: the health app counts on its own.
+        onPauseOrDispose { job.cancel(); if (!health) WalkService.start(ctx) }
     }
     val j = state
     if (!settings.onboarded || j == null || !j.started) {

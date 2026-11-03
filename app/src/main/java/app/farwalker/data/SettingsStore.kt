@@ -29,6 +29,8 @@ data class Settings(
     val notify: Boolean = true,
     /** How many of the journal's notes have been told already. */
     val told: Int = 0,
+    /** The epoch day steps began to come from Health Connect; -1 while the phone's own counter counts them. */
+    val healthFrom: Long = -1,
 )
 
 /** A walking step is about this share of the walker's height. */
@@ -48,6 +50,7 @@ class SettingsStore(context: Context) {
             weather = if (sky != null) WeatherNow(sky, this[TEMP] ?: 0.0, this[WIND] ?: 0.0, this[WEATHER_AT] ?: 0, this[W_LAT] ?: 0.0, this[W_LON] ?: 0.0) else null,
             notify = this[NOTIFY] ?: true,
             told = this[TOLD] ?: 0,
+            healthFrom = this[HEALTH_FROM] ?: -1,
         )
     }
 
@@ -67,6 +70,7 @@ class SettingsStore(context: Context) {
             }
             it[NOTIFY] = s.notify
             it[TOLD] = s.told
+            it[HEALTH_FROM] = s.healthFrom
         }
     }
 
@@ -82,5 +86,6 @@ class SettingsStore(context: Context) {
         val W_LON = doublePreferencesKey("w_lon")
         val NOTIFY = booleanPreferencesKey("notify")
         val TOLD = intPreferencesKey("told")
+        val HEALTH_FROM = longPreferencesKey("health_from")
     }
 }
