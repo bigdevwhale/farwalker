@@ -6,6 +6,16 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.1.0] - 2026-11-03
+
+### Added
+- Steps can come from Health Connect: Settings → Steps picks the phone's own counter or Health Connect, where Samsung Health, Mi Fitness, Zepp Life, Google Fit, watches and bands put the steps they count. What is new on a day is walked, so a watch's late steps still arrive and nothing is counted twice when switching mid-day. Huawei Health doesn't share with Health Connect; the Health Sync app can carry its steps over.
+
+<!-- tg
+Кругосветка 1.1.0: шаги теперь можно брать из Health Connect — из Samsung Health, Mi Fitness, Zepp Life, Google Fit, часов и браслетов
+Включается в настройках, раздел «Шаги»
+-->
+
 ## [1.0.2] - 2026-10-29
 
 ### Added
