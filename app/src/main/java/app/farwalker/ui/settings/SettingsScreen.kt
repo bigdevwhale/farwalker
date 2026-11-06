@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.core.os.LocaleListCompat
 import app.farwalker.BuildConfig
 import app.farwalker.R
@@ -132,6 +134,9 @@ private fun StepSource(health: Boolean) {
     // null while asking Health Connect whether reading is still allowed.
     var allowed by remember { mutableStateOf<Boolean?>(null) }
     LaunchedEffect(health) { allowed = c.health.allowed() }
+    // The step counter's permission, looked at again whenever the app comes back (from the dialog or the system settings).
+    var granted by remember { mutableStateOf(c.sensor.allowed) }
+    LifecycleResumeEffect(Unit) { granted = c.sensor.allowed; onPauseOrDispose { } }
     // Why tapping Health Connect didn't switch to it.
     var note by remember { mutableStateOf<Int?>(null) }
     fun useHealth() = c.write {
@@ -157,7 +162,7 @@ private fun StepSource(health: Boolean) {
         Btn(stringResource(R.string.s_source_health), Modifier.weight(1f), primary = health) { pickHealth() }
     }
     val status = when {
-        !health -> note ?: if (c.sensor.allowed && c.sensor.present) R.string.steps_ok else R.string.steps_off
+        !health -> note ?: if (granted && c.sensor.present) R.string.steps_ok else R.string.steps_off
         allowed == null -> null
         allowed == true -> R.string.health_ok
         c.health.available -> R.string.health_denied
@@ -165,11 +170,37 @@ private fun StepSource(health: Boolean) {
         else -> R.string.health_none
     }
     status?.let { Text(stringResource(it), style = T.Body) }
+    if (!health && c.sensor.present && !granted) {
+        AllowSteps(Modifier.fillMaxWidth().padding(top = 6.dp))
+    }
     if (health && allowed == false) {
         if (c.health.available) Btn(stringResource(R.string.health_allow), Modifier.fillMaxWidth().padding(top = 6.dp)) { pickHealth() }
         else if (c.health.installable) Btn(stringResource(R.string.health_get), Modifier.fillMaxWidth().padding(top = 6.dp)) { pickHealth() }
     }
     Text(stringResource(R.string.s_source_hint), style = T.Small)
+}
+
+/**
+ * Asks for the step counter once more, for someone who passed it by at the start. Once Android stops
+ * showing its dialog (denied twice), the app's own page in the system settings is where it is allowed.
+ */
+@Composable
+fun AllowSteps(modifier: Modifier = Modifier, primary: Boolean = true) {
+    val ctx = LocalContext.current
+    val activity = ctx as? android.app.Activity
+    val ask = rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { ok ->
+        val shown = activity?.shouldShowRequestPermissionRationale(android.Manifest.permission.ACTIVITY_RECOGNITION) ?: true
+        if (!ok && !shown) {
+            runCatching {
+                ctx.startActivity(
+                    android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, "package:${ctx.packageName}".toUri()),
+                )
+            }
+        }
+    }
+    Btn(stringResource(R.string.o_allow), modifier, primary = primary) {
+        if (android.os.Build.VERSION.SDK_INT >= 29) ask.launch(android.Manifest.permission.ACTIVITY_RECOGNITION)
+    }
 }
 
 @Composable

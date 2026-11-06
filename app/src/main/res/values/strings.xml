@@ -80,9 +80,6 @@
 
     <string name="passport">Passport</string>
     <string name="p_states">States</string>
-    <string name="p_lands">Other lands</string>
-    <string name="p_parts">Parts of the world</string>
-    <string name="p_capes">Ends of the earth</string>
     <string name="p_of">%1$d of %2$d</string>
     <string name="p_foot">On foot</string>
     <string name="p_train">By train</string>
@@ -90,7 +87,6 @@
     <string name="p_first">First entered on %1$s</string>
     <string name="p_via">at %1$s</string>
     <string name="p_times">Entered %1$d times</string>
-    <string name="p_stamps">Stamps</string>
 
     <string name="journal">Journal</string>
     <string name="j_night">Night: %1$s</string>
@@ -151,6 +147,70 @@
     <string name="o_start">Set out</string>
     <string name="o_no_sensor">This phone has no step counter. Steps can still be added by hand in the settings.</string>
 
+    <string name="n_sight_t">A sight</string>
+    <string name="n_sight">%1$s is in the collection now.</string>
+    <string name="j_sight">Sight: %1$s</string>
+    <string name="n_medal_t">A medal</string>
+    <string name="n_medal">%1$s. A new medal in the passport.</string>
+    <string name="j_medal">Medal: %1$s</string>
+    <string name="n_quest_t">Task done</string>
+    <string name="n_quest">%1$s.</string>
+    <string name="j_quest">Task done: %1$s</string>
+    <string name="steps_not_counted">Steps aren\'t being counted: the step counter isn\'t allowed.</string>
+
+    <string name="tasks_week">This week</string>
+    <string name="task_reward">+%1$s</string>
+    <string name="q_day">Walk %1$s steps today</string>
+    <string name="q_week_km">Walk %1$s km this week</string>
+    <string name="q_day_short">the day\'s steps</string>
+    <string name="q_week_km_short">the week\'s km</string>
+    <string name="q_week_days_short">the week\'s days</string>
+
+    <string name="p_medals">Medals</string>
+    <string name="p_near">near %1$s</string>
+    <string name="p_seen">Seen on %1$s</string>
+    <string name="p_unseen">Not seen yet. It is collected on reaching %1$s.</string>
+    <string name="p_go">Set out for it</string>
+    <string name="p_won">Won on %1$s</string>
+    <string name="goal_sights">Sights nearby</string>
+
+    <string name="medal_round">Round the earth</string>
+    <string name="medal_all_sights">Every sight</string>
+    <string name="medal_all_capes">Every end of the earth</string>
+    <string name="medal_all_parts">All seven parts of the world</string>
+    <string name="medal_km">%1$s km on foot</string>
+    <string name="medal_day">%1$s steps in a day</string>
+    <string name="medal_sea">%1$s km by sea</string>
+
+    <string name="widget_desc">Where the traveller is, today\'s steps and the day\'s task.</string>
+    <string name="widget_task">Task: %1$s of %2$s steps</string>
+    <string name="widget_task_done">Today\'s task is done</string>
+
+    <string name="p_tab_stamps">Stamps</string>
+    <string name="p_tab_medals">Medals</string>
+    <string name="p_tab_sights">Sights</string>
+    <string name="p_capes_short">Capes</string>
+    <string name="p_days">Journey</string>
+    <string name="p_sights_seen">Sights seen</string>
+    <string name="p_next">Next: %1$s</string>
+    <string name="p_all_won">All won</string>
+    <string name="p_seen_list">Seen</string>
+    <string name="p_ahead">Still ahead, nearest first</string>
+    <string name="p_sights_hint">A sight is collected on reaching the town nearest it. Tap one to read about it or set out for it.</string>
+    <string name="m_km">On foot</string>
+    <string name="m_round">Round the earth</string>
+    <string name="m_countries">Countries and lands</string>
+    <string name="m_sights">Sights</string>
+    <string name="m_capes">Ends of the earth</string>
+    <string name="m_parts">Parts of the world</string>
+    <string name="m_day">Best day</string>
+    <string name="m_sea">By sea</string>
+    <string name="m_tasks">Tasks</string>
+    <string name="j_week_sum">%1$s km · the day\'s task met %2$d of %3$d</string>
+    <string name="j_more">and %1$d more</string>
+    <string name="j_medals">Medals: %1$s</string>
+    <string name="j_quests">Tasks done: %1$s, +%2$s</string>
+
     <plurals name="coins">
         <item quantity="one">%1$s coin</item>
         <item quantity="other">%1$s coins</item>
@@ -158,5 +218,33 @@
     <plurals name="days">
         <item quantity="one">%1$s day</item>
         <item quantity="other">%1$s days</item>
+    </plurals>
+    <plurals name="medal_countries">
+        <item quantity="one">%1$s country</item>
+        <item quantity="other">%1$s countries</item>
+    </plurals>
+    <plurals name="medal_sights">
+        <item quantity="one">%1$s sight</item>
+        <item quantity="other">%1$s sights</item>
+    </plurals>
+    <plurals name="medal_capes">
+        <item quantity="one">%1$s end of the earth</item>
+        <item quantity="other">%1$s ends of the earth</item>
+    </plurals>
+    <plurals name="medal_parts">
+        <item quantity="one">%1$s part of the world</item>
+        <item quantity="other">%1$s parts of the world</item>
+    </plurals>
+    <plurals name="medal_tasks">
+        <item quantity="one">%1$s task done</item>
+        <item quantity="other">%1$s tasks done</item>
+    </plurals>
+    <plurals name="q_week_days">
+        <item quantity="one">Meet the day\'s task on %1$d day this week</item>
+        <item quantity="other">Meet the day\'s task on %1$d days this week</item>
+    </plurals>
+    <plurals name="p_lands_more">
+        <item quantity="one">and %1$d other land</item>
+        <item quantity="other">and %1$d other lands</item>
     </plurals>
 </resources>

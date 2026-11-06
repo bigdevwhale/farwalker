@@ -46,6 +46,10 @@ object Store {
         put("stamps", JSONArray().apply { j.stamps.values.forEach { put(JSONArray().put(it.iso).put(it.day).put(it.town).put(it.entries)) } })
         put("continents", JSONObject().apply { j.continents.forEach { (c, d) -> put(c.name, d) } })
         put("capes", JSONObject().apply { j.capes.forEach { (t, d) -> put(t.toString(), d) } })
+        put("sights", JSONObject().apply { j.sights.forEach { (k, d) -> put(k, d) } })
+        put("medals", JSONObject().apply { j.medals.forEach { (k, d) -> put(k, d) } })
+        put("quests", JSONObject().apply { j.quests.forEach { (k, d) -> put(k, d) } })
+        put("settled", j.settled)
         put("trail", JSONArray().apply { j.trail.forEach { put(JSONArray().put(it.town).put(it.mode.ordinal).put(it.day)) } })
         put("nights", JSONArray().apply { j.nights.forEach { put(JSONArray().put(it.day).put(it.town).put(it.iso).put(it.km).put(it.mode.ordinal).put(it.next).put(it.at)) } })
         put("notes", JSONArray().apply { j.notes.forEach { put(JSONArray().put(it.day).put(it.news.name).put(it.ref).put(it.town)) } })
@@ -67,6 +71,10 @@ object Store {
         o.optJSONArray("stamps")?.let { a -> for (i in 0 until a.length()) { val s = a.getJSONArray(i); stamps[s.getString(0)] = Stamp(s.getString(0), s.getLong(1), s.getInt(2), s.getInt(3)) } }
         o.optJSONObject("continents")?.let { d -> d.keys().forEach { k -> Continent.entries.firstOrNull { it.name == k }?.let { continents[it] = d.getLong(k) } } }
         o.optJSONObject("capes")?.let { d -> d.keys().forEach { capes[it.toInt()] = d.getLong(it) } }
+        o.optJSONObject("sights")?.let { d -> d.keys().forEach { sights[it] = d.getLong(it) } }
+        o.optJSONObject("medals")?.let { d -> d.keys().forEach { medals[it] = d.getLong(it) } }
+        o.optJSONObject("quests")?.let { d -> d.keys().forEach { quests[it] = d.getLong(it) } }
+        settled = o.optBoolean("settled", false)
         o.optJSONArray("trail")?.let { a -> for (i in 0 until a.length()) { val v = a.getJSONArray(i); trail += Visit(v.getInt(0), Mode.entries[v.getInt(1)], v.getLong(2)) } }
         o.optJSONArray("nights")?.let { a -> for (i in 0 until a.length()) { val v = a.getJSONArray(i); nights += Night(v.getLong(0), v.getInt(1), v.getString(2), v.getDouble(3), Mode.entries[v.getInt(4)], v.optInt(5, -1), v.optDouble(6, 0.0)) } }
         o.optJSONArray("notes")?.let { a ->

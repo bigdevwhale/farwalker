@@ -27,7 +27,7 @@ class AppContainer(context: Context) {
     val settings = SettingsStore(app)
     val world: World by lazy {
         val a = app.assets
-        World.load(a.open("world/countries.tsv"), a.open("world/towns.tsv"), a.open("world/edges.tsv"), a.open("world/shapes.bin"))
+        World.load(a.open("world/countries.tsv"), a.open("world/towns.tsv"), a.open("world/edges.tsv"), a.open("world/shapes.bin"), a.open("world/sights.tsv"))
     }
     val travel by lazy { Travel(world) }
     val trip by lazy { Trip(File(app.filesDir, "journey.json"), travel, stride = { settings.now().stride / 100.0 }) }

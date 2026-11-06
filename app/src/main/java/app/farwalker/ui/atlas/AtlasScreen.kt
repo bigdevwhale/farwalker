@@ -45,6 +45,7 @@ import app.farwalker.ui.components.Btn
 import app.farwalker.ui.components.PaperDialog
 import app.farwalker.ui.components.Rule
 import app.farwalker.ui.components.Stat
+import app.farwalker.ui.settings.AllowSteps
 import app.farwalker.ui.theme.C
 import app.farwalker.ui.theme.T
 import java.time.Instant
@@ -188,6 +189,11 @@ private fun Panel(home: Home, onGoal: () -> Unit) {
                     stringResource(R.string.there, clock), weather?.let { w.temp(it.temp) } ?: "—", Modifier.weight(1f),
                     sub = weather?.let { w.sky(it.sky) },
                 )
+            }
+            // Steps passed by at the start (or taken back since): nothing moves until they're allowed.
+            if (home.settings.healthFrom < 0 && c.sensor.present && !c.sensor.allowed) {
+                Text(stringResource(R.string.steps_not_counted), style = T.Italic.copy(color = C.red))
+                AllowSteps(Modifier.fillMaxWidth(), primary = false)
             }
             Text(
                 if (j.dest >= 0) stringResource(R.string.goal, w.town(j.dest), w.km(travel.left(j))) else stringResource(R.string.no_goal),

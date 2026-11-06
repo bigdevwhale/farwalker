@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,12 +26,15 @@ import app.farwalker.R
 import app.farwalker.container
 import app.farwalker.domain.Geo
 import app.farwalker.domain.Leg
+import app.farwalker.domain.Sight
+import app.farwalker.domain.World
 import app.farwalker.domain.Town
 import app.farwalker.ui.Home
 import app.farwalker.ui.components.Btn
 import app.farwalker.ui.components.Field
 import app.farwalker.ui.components.Rule
 import app.farwalker.ui.components.Sheet
+import app.farwalker.ui.passport.SightMark
 import app.farwalker.ui.theme.C
 import app.farwalker.ui.theme.T
 import kotlinx.coroutines.Dispatchers
@@ -50,8 +54,14 @@ fun GoalSheet(home: Home, onClose: () -> Unit, onSet: () -> Unit) {
     val focus = LocalFocusManager.current
     var query by remember { mutableStateOf("") }
     var picked by remember { mutableStateOf<Town?>(null) }
+    // The sight the goal was picked for, if it was: named over the town it is collected in.
+    var pickedSight by remember { mutableStateOf<Sight?>(null) }
     var preview by remember { mutableStateOf<Preview?>(null) }
     val results = remember(query) { world.search(query) }
+    val sightHits = remember(query) {
+        val q = World.fold(query)
+        if (q.length < 2) emptyList() else world.sights.filter { q in World.fold(it.en) || q in World.fold(it.ru) }.take(8)
+    }
     val here = world.town(j.town)
     // Empty search: the nearest capitals of states not yet stamped, and the nearest ends of the earth.
     val near = remember(j.town, j.stamps.size) {
@@ -62,6 +72,11 @@ fun GoalSheet(home: Home, onClose: () -> Unit, onSet: () -> Unit) {
     val capes = remember(j.town, j.capes.size) {
         world.towns.filter { it.cape && it.id !in j.capes }.sortedBy { Geo.km(here.lat, here.lon, it.lat, it.lon) }.take(5)
     }
+    // Sights not yet seen, nearest first: somewhere to walk to.
+    val sights = remember(j.town, j.sights.size) {
+        world.sights.filter { it.key !in j.sights }.sortedBy { Geo.km(here.lat, here.lon, it.lat, it.lon) }.take(5)
+    }
+    fun pickSight(sg: Sight) { picked = world.town(sg.town); pickedSight = sg; focus.clearFocus() }
     LaunchedEffect(picked) {
         val t = picked ?: return@LaunchedEffect
         preview = null
@@ -90,8 +105,15 @@ fun GoalSheet(home: Home, onClose: () -> Unit, onSet: () -> Unit) {
         val p = preview
         val chosen = picked
         if (chosen != null) {
-            Text(w.town(chosen.id), style = T.Title)
-            Text(w.country(chosen.iso), style = T.Italic)
+            val sg = pickedSight?.takeIf { it.town == chosen.id }
+            if (sg != null) {
+                Text(sg.name(home.ru), style = T.Title)
+                Text(w.country(chosen.iso) + " · " + stringResource(R.string.p_near, w.town(chosen.id)), style = T.Italic)
+                Text(sg.about(home.ru), style = T.Sub)
+            } else {
+                Text(w.town(chosen.id), style = T.Title)
+                Text(w.country(chosen.iso), style = T.Italic)
+            }
             Spacer(Modifier.height(6.dp))
             when {
                 p == null -> Text("…", style = T.Sub)
@@ -117,12 +139,17 @@ fun GoalSheet(home: Home, onClose: () -> Unit, onSet: () -> Unit) {
             Rule()
         }
         if (query.length >= 2) {
-            for (t in results) TownRow(home, t) { picked = t; focus.clearFocus() }
+            for (sg in sightHits) SightRow(home, sg) { pickSight(sg) }
+            for (t in results) TownRow(home, t) { picked = t; pickedSight = null; focus.clearFocus() }
         } else {
             Section(stringResource(R.string.goal_near))
-            for (t in near) TownRow(home, t) { picked = t }
+            for (t in near) TownRow(home, t) { picked = t; pickedSight = null }
+            if (sights.isNotEmpty()) {
+                Section(stringResource(R.string.goal_sights))
+                for (sg in sights) SightRow(home, sg) { pickSight(sg) }
+            }
             Section(stringResource(R.string.goal_capes))
-            for (t in capes) TownRow(home, t) { picked = t }
+            for (t in capes) TownRow(home, t) { picked = t; pickedSight = null }
             if (j.dest >= 0) {
                 Spacer(Modifier.height(16.dp))
                 Btn(stringResource(R.string.goal_stop), Modifier.fillMaxWidth(), primary = false) {
@@ -150,5 +177,20 @@ private fun TownRow(home: Home, t: Town, onPick: () -> Unit) {
             Text(w.country(t.iso), style = T.Small)
         }
         Text("≈ " + stringResource(R.string.km_n, w.km(Geo.km(here.lat, here.lon, t.lat, t.lon))), style = T.Small)
+    }
+}
+
+@Composable
+private fun SightRow(home: Home, sg: Sight, onPick: () -> Unit) {
+    val w = home.words
+    val here = home.world.town(home.j.town)
+    val seen = sg.key in home.j.sights
+    Row(Modifier.fillMaxWidth().clickable(onClick = onPick).padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        SightMark(seen, Modifier.size(18.dp))
+        Column(Modifier.weight(1f)) {
+            Text(sg.name(home.ru), style = T.Heading.copy(color = if (seen) C.ink else C.red))
+            Text(w.country(sg.iso) + " · " + stringResource(R.string.p_near, w.town(sg.town)), style = T.Small)
+        }
+        Text("≈ " + stringResource(R.string.km_n, w.km(Geo.km(here.lat, here.lon, sg.lat, sg.lon))), style = T.Small)
     }
 }

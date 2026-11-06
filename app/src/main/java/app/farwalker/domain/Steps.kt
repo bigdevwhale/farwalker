@@ -14,8 +14,28 @@ object Steps {
     /** A day can't plausibly hold more than this; anything above is a counter glitch. */
     const val MAX_PER_DAY = 70_000
 
-    /** The steps since [lastValue] at [lastAt]; a smaller counter means the phone rebooted. */
-    fun delta(lastValue: Long, value: Long): Long = if (value >= lastValue) value - lastValue else value
+    /** Faster than anyone walks or runs for long: about 240 steps a minute. */
+    const val MAX_PER_SECOND = 4
+
+    /** Room for steps the phone held back and handed over late, which were walked before the last reading. */
+    const val LATE_STEPS = 1_000
+
+    /**
+     * The steps between a reading of [lastValue] at [lastAt] and one of [value] at [at]. The counter
+     * starts again from zero only when the phone boots (at [bootAt]); a smaller value without a boot
+     * is a stale or glitched reading and brings no steps. No reading can bring more steps than could be
+     * walked in the time since the last one, so a counter that jumps doesn't fling the traveller ahead.
+     */
+    fun delta(lastValue: Long, lastAt: Long, value: Long, at: Long, bootAt: Long): Long {
+        val d = when {
+            value >= lastValue -> value - lastValue
+            bootAt > lastAt -> value
+            else -> 0
+        }
+        if (lastAt <= 0) return d
+        val most = LATE_STEPS + (at - lastAt).coerceAtLeast(0) / 1000 * MAX_PER_SECOND
+        return min(d, most)
+    }
 
     /**
      * Day totals from a health app (Health Connect) against the steps the journey already has for those

@@ -59,6 +59,19 @@
             </intent-filter>
         </activity-alias>
 
+        <!-- The road on the home screen. -->
+        <receiver
+            android:name=".work.RoadWidget"
+            android:exported="false"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
         <service
             android:name=".work.WalkService"
             android:exported="false"

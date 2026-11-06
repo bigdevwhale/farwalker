@@ -71,6 +71,27 @@ class Town(
     fun name(ru: Boolean) = if (ru) this.ru else en
 }
 
+/**
+ * A sight worth the walk: collected on reaching [town], the town of its own country nearest to it,
+ * since the roads run between towns. [about] is a line on what it is.
+ */
+class Sight(
+    val id: Int,
+    val en: String,
+    val ru: String,
+    val iso: String,
+    val lat: Double,
+    val lon: Double,
+    val aboutEn: String,
+    val aboutRu: String,
+    val town: Int,
+) {
+    /** What the journey keeps it by: the English name, which stays put when the list grows. */
+    val key: String get() = en
+    fun name(ru: Boolean) = if (ru) this.ru else en
+    fun about(ru: Boolean) = if (ru) aboutRu else aboutEn
+}
+
 /** Where along a road the country underfoot changes, going from its first town to its second. */
 class Cross(val at: Float, val iso: String)
 
@@ -87,7 +108,22 @@ class World(
     val towns: List<Town>,
     val edges: List<Edge>,
     val shapes: Map<String, List<Ring>>,
+    sightRows: List<List<String>> = emptyList(),
 ) {
+    /** The sights, each tied to the nearest town of its country that a road reaches. */
+    val sights: List<Sight> = sightRows.mapIndexed { i, f ->
+        val lat = f[3].toDouble()
+        val lon = f[4].toDouble()
+        val near = towns.filter { it.iso == f[2] && !it.cape }.minByOrNull { Geo.km(lat, lon, it.lat, it.lon) }
+            ?: towns.filter { !it.cape }.minBy { Geo.km(lat, lon, it.lat, it.lon) }
+        Sight(i, f[0], f[1], f[2], lat, lon, f[5], f[6], near.id)
+    }
+
+    /** The sights collected on reaching each town. */
+    val sightsAt: Map<Int, List<Sight>> = sights.groupBy { it.town }
+
+    fun sight(key: String): Sight? = sights.firstOrNull { it.key == key }
+
     /** The edges at each town. */
     val links: Array<IntArray> = run {
         val lists = Array(towns.size) { mutableListOf<Int>() }
@@ -144,7 +180,7 @@ class World(
         fun fold(s: String): String =
             Normalizer.normalize(s.lowercase(), Normalizer.Form.NFD).replace(marks, "").replace('ё', 'е')
 
-        fun load(countries: InputStream, towns: InputStream, edges: InputStream, shapes: InputStream): World {
+        fun load(countries: InputStream, towns: InputStream, edges: InputStream, shapes: InputStream, sights: InputStream? = null): World {
             val cs = countries.bufferedReader().readLines().filter { it.isNotBlank() }.map { l ->
                 val f = l.split('\t')
                 Country(f[0], f[1], f[2], Continent.of(f[3]), f[4] == "S", f[5].toDouble(), f[6].toDouble(), f[7].toDouble())
@@ -178,7 +214,8 @@ class World(
                     }
                 }
             }
-            return World(cs, ts, es, sh)
+            val ss = sights?.bufferedReader()?.readLines()?.filter { it.isNotBlank() }?.map { it.split('	') }.orEmpty()
+            return World(cs, ts, es, sh, ss)
         }
     }
 }

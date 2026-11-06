@@ -33,6 +33,7 @@ class WalkWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
         c.sync()
         runCatching { c.refreshWeather() }
         Notes.check(applicationContext)
+        runCatching { RoadWidget.updateAll(applicationContext) }
         return Result.success()
     }
 }
@@ -47,7 +48,7 @@ object Alarms {
 /** News of the road, told once each: a new country, a new part of the world, a cape, a ship in port, the goal reached. */
 object Notes {
     private const val CHANNEL = "road"
-    private val TOLD = setOf(News.COUNTRY, News.CONTINENT, News.CAPE, News.ARRIVED, News.DOCKED, News.STATION)
+    private val TOLD = setOf(News.COUNTRY, News.CONTINENT, News.CAPE, News.ARRIVED, News.DOCKED, News.STATION, News.SIGHT, News.MEDAL, News.QUEST)
 
     fun allowed(context: Context) = Build.VERSION.SDK_INT < 33 ||
         ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
@@ -75,12 +76,15 @@ object Notes {
     }
 
     private fun rank(n: Note) = when (n.news) {
-        News.CONTINENT -> 6
-        News.CAPE -> 5
-        News.ARRIVED -> 4
+        News.CONTINENT -> 8
+        News.CAPE -> 7
+        News.SIGHT -> 6
+        News.ARRIVED -> 5
+        News.MEDAL -> 4
         News.COUNTRY -> 3
-        News.DOCKED -> 2
-        else -> 1
+        News.QUEST -> 2
+        News.DOCKED -> 1
+        else -> 0
     }
 
     private fun show(context: Context, title: String, text: String) {

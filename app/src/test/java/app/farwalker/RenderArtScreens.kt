@@ -4,6 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -21,6 +23,7 @@ import app.farwalker.ui.onboarding.Onboarding
 import app.farwalker.ui.passport.PassportScreen
 import app.farwalker.ui.theme.C
 import app.farwalker.ui.theme.FarwalkerTheme
+import app.farwalker.work.RoadWidget
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
@@ -70,9 +73,32 @@ abstract class ScreensBase {
     @Test fun atlas() = home().let { h -> shot("1-atlas") { AtlasScreen(h, camera(h, 30.0), {}, {}) } }
     @Test fun atlasFar() = home().let { h -> shot("2-atlas-far") { AtlasScreen(h, camera(h, 3.0), {}, {}) } }
     @Test fun atlasNear() = home().let { h -> shot("3-atlas-near") { AtlasScreen(h, camera(h, 90.0), {}, {}) } }
-    @Test fun passport() = home().let { h -> shot("4-passport") { PassportScreen(h) } }
+    @Test fun passport() = home().let { h -> shot("4-passport") { PassportScreen(h) {} } }
     @Test fun journal() = home().let { h -> shot("5-journal") { JournalScreen(h) } }
     @Test fun goal() = home().let { h -> shot("6-goal") { GoalSheet(h, {}, {}) } }
+
+    /** The medals and sights further down the passport. */
+    @Test fun medals() = home().let { h ->
+        shot("8-medals") {
+            androidx.compose.foundation.layout.Column(Modifier.fillMaxSize()) {
+                val ms = app.farwalker.domain.Medals.all(h.world)
+                for (row in ms.chunked(4).take(5)) androidx.compose.foundation.layout.Row {
+                    for (m in row) androidx.compose.foundation.layout.Column(Modifier.weight(1f)) {
+                        app.farwalker.ui.passport.MedalArt(m, m.key in h.j.medals, Modifier.fillMaxWidth().aspectRatio(0.8f))
+                        androidx.compose.material3.Text(h.words.medal(m), style = app.farwalker.ui.theme.T.Small)
+                    }
+                }
+            }
+        }
+    }
+
+    /** The home-screen widget's picture, as the widget would show it. */
+    @Test fun widget() {
+        val h = home()
+        val app = ApplicationProvider.getApplicationContext<FarwalkerApp>()
+        val image = RoadWidget.render(app, h.words, h.world, h.travel, h.j)
+        File(out, "7-widget.png").outputStream().use { image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+    }
 }
 
 @Config(sdk = [34], qualifiers = "en-w411dp-h891dp-xxhdpi")

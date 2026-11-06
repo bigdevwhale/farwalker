@@ -25,7 +25,7 @@ class Night(val day: Long, val town: Int, val iso: String, val km: Double, val m
 /** A town reached, in order: the line the map draws behind the traveller. */
 class Visit(val town: Int, val mode: Mode, val day: Long)
 
-enum class News { START, COUNTRY, BORDER, CONTINENT, CAPE, ARRIVED, DOCKED, STATION, PORT }
+enum class News { START, COUNTRY, BORDER, CONTINENT, CAPE, ARRIVED, DOCKED, STATION, PORT, SIGHT, MEDAL, QUEST }
 
 /** Something worth a line in the journal (and a notification, while the app is out of sight). */
 class Note(val day: Long, val news: News, val ref: String, val town: Int = -1)
@@ -56,6 +56,17 @@ class Journey {
     val stamps = linkedMapOf<String, Stamp>()
     val continents = linkedMapOf<Continent, Long>()
     val capes = linkedMapOf<Int, Long>()
+    /** Sights collected, by key, with the day. */
+    val sights = linkedMapOf<String, Long>()
+    /** Medals won, by key, with the day. */
+    val medals = linkedMapOf<String, Long>()
+    /** Tasks done (and paid), by key, with the day. */
+    val quests = linkedMapOf<String, Long>()
+    /**
+     * Sights and medals have been worked out for the road walked before they existed: an older journey
+     * gets them quietly, once, rather than as a flood of news.
+     */
+    var settled = false
     val trail = mutableListOf<Visit>()
     val nights = mutableListOf<Night>()
     val notes = mutableListOf<Note>()
@@ -212,6 +223,11 @@ class Travel(val world: World) {
         j.trail += Visit(town, mode, day)
         val t = world.town(town)
         if (t.iso != j.iso) out += enter(j, t.iso, day, town)
+        for (sight in world.sightsAt[town].orEmpty()) {
+            if (sight.key in j.sights) continue
+            j.sights[sight.key] = day
+            out += Note(day, News.SIGHT, sight.key, town).also { j.notes += it }
+        }
         if (t.cape && town !in j.capes) {
             j.capes[town] = day
             out += Note(day, News.CAPE, t.en, town).also { j.notes += it }
@@ -318,6 +334,31 @@ class Travel(val world: World) {
             val on = if (j.at > 0) next(j) ?: -1 else -1
             j.nights += Night(last, j.town, j.iso, j.dayKm[last] ?: 0.0, j.ride?.mode ?: Mode.WALK, on, if (on >= 0) j.at else 0.0)
             j.lastDay = day
+        }
+        return out
+    }
+
+    /**
+     * Pays for the tasks done and hands out the medals won: call after the steps come in. The first time
+     * on an older journey, the sights already passed and the medals already earned are given quietly.
+     */
+    fun settle(j: Journey, today: Long): List<Note> {
+        if (!j.started) return emptyList()
+        if (!j.settled) {
+            for (v in j.trail) for (sight in world.sightsAt[v.town].orEmpty()) j.sights.putIfAbsent(sight.key, v.day)
+            for (m in Medals.all(world)) if (m.value(j) >= m.target) j.medals.putIfAbsent(m.key, today)
+            j.settled = true
+        }
+        val out = mutableListOf<Note>()
+        for (q in Quests.due(j, today)) {
+            j.quests[q.key] = today
+            j.coins += q.reward
+            out += Note(today, News.QUEST, q.key).also { j.notes += it }
+        }
+        for (m in Medals.all(world)) {
+            if (m.key in j.medals || m.value(j) < m.target) continue
+            j.medals[m.key] = today
+            out += Note(today, News.MEDAL, m.key).also { j.notes += it }
         }
         return out
     }

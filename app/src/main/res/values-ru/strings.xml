@@ -80,9 +80,6 @@
 
     <string name="passport">Паспорт</string>
     <string name="p_states">Государства</string>
-    <string name="p_lands">Другие земли</string>
-    <string name="p_parts">Части света</string>
-    <string name="p_capes">Края земли</string>
     <string name="p_of">%1$d из %2$d</string>
     <string name="p_foot">Пешком</string>
     <string name="p_train">Поездом</string>
@@ -90,7 +87,6 @@
     <string name="p_first">Впервые — %1$s</string>
     <string name="p_via">въезд: %1$s</string>
     <string name="p_times">Въездов: %1$d</string>
-    <string name="p_stamps">Штампы</string>
 
     <string name="journal">Дневник</string>
     <string name="j_night">Ночлег: %1$s</string>
@@ -151,6 +147,70 @@
     <string name="o_start">В путь</string>
     <string name="o_no_sensor">В этом телефоне нет шагомера. Шаги можно добавлять вручную в настройках.</string>
 
+    <string name="n_sight_t">Достопримечательность</string>
+    <string name="n_sight">%1$s теперь в коллекции.</string>
+    <string name="j_sight">Достопримечательность: %1$s</string>
+    <string name="n_medal_t">Медаль</string>
+    <string name="n_medal">%1$s. В паспорте новая медаль.</string>
+    <string name="j_medal">Медаль: %1$s</string>
+    <string name="n_quest_t">Задание выполнено</string>
+    <string name="n_quest">%1$s.</string>
+    <string name="j_quest">Задание выполнено: %1$s</string>
+    <string name="steps_not_counted">Шаги не считаются: нет разрешения на шагомер.</string>
+
+    <string name="tasks_week">На этой неделе</string>
+    <string name="task_reward">+%1$s</string>
+    <string name="q_day">Пройти %1$s шагов за день</string>
+    <string name="q_week_km">Пройти %1$s км за неделю</string>
+    <string name="q_day_short">шаги за день</string>
+    <string name="q_week_km_short">километры за неделю</string>
+    <string name="q_week_days_short">дни недели</string>
+
+    <string name="p_medals">Медали</string>
+    <string name="p_near">рядом: %1$s</string>
+    <string name="p_seen">Увидено %1$s</string>
+    <string name="p_unseen">Ещё не увидено. Засчитывается в городе %1$s.</string>
+    <string name="p_go">Отправиться туда</string>
+    <string name="p_won">Получена %1$s</string>
+    <string name="goal_sights">Достопримечательности рядом</string>
+
+    <string name="medal_round">Вокруг света</string>
+    <string name="medal_all_sights">Все места</string>
+    <string name="medal_all_capes">Все края земли</string>
+    <string name="medal_all_parts">Все семь частей света</string>
+    <string name="medal_km">%1$s км пешком</string>
+    <string name="medal_day">%1$s шагов за день</string>
+    <string name="medal_sea">%1$s км по морю</string>
+
+    <string name="widget_desc">Где путешественник, шаги за сегодня и задание дня.</string>
+    <string name="widget_task">Задание: %1$s из %2$s шагов</string>
+    <string name="widget_task_done">Задание дня выполнено</string>
+
+    <string name="p_tab_stamps">Штампы</string>
+    <string name="p_tab_medals">Медали</string>
+    <string name="p_tab_sights">Места</string>
+    <string name="p_capes_short">Края земли</string>
+    <string name="p_days">В пути</string>
+    <string name="p_sights_seen">Увидено мест</string>
+    <string name="p_next">Следующая: %1$s</string>
+    <string name="p_all_won">Все получены</string>
+    <string name="p_seen_list">Увидены</string>
+    <string name="p_ahead">Впереди, ближайшие первыми</string>
+    <string name="p_sights_hint">Место засчитывается в ближайшем к нему городе. Нажмите на место, чтобы прочитать о нём или отправиться туда.</string>
+    <string name="m_km">Пешком</string>
+    <string name="m_round">Вокруг света</string>
+    <string name="m_countries">Страны и земли</string>
+    <string name="m_sights">Места</string>
+    <string name="m_capes">Края земли</string>
+    <string name="m_parts">Части света</string>
+    <string name="m_day">Лучший день</string>
+    <string name="m_sea">Морем</string>
+    <string name="m_tasks">Задания</string>
+    <string name="j_week_sum">%1$s км · задание дня: %2$d из %3$d</string>
+    <string name="j_more">и ещё %1$d</string>
+    <string name="j_medals">Медали: %1$s</string>
+    <string name="j_quests">Задания: %1$s, +%2$s</string>
+
     <plurals name="coins">
         <item quantity="one">%1$s монета</item>
         <item quantity="few">%1$s монеты</item>
@@ -162,5 +222,47 @@
         <item quantity="few">%1$s дня</item>
         <item quantity="many">%1$s дней</item>
         <item quantity="other">%1$s дня</item>
+    </plurals>
+    <plurals name="medal_countries">
+        <item quantity="one">%1$s страна</item>
+        <item quantity="few">%1$s страны</item>
+        <item quantity="many">%1$s стран</item>
+        <item quantity="other">%1$s страны</item>
+    </plurals>
+    <plurals name="medal_sights">
+        <item quantity="one">Мест увидено: %1$s</item>
+        <item quantity="few">Мест увидено: %1$s</item>
+        <item quantity="many">Мест увидено: %1$s</item>
+        <item quantity="other">Мест увидено: %1$s</item>
+    </plurals>
+    <plurals name="medal_capes">
+        <item quantity="one">%1$s край земли</item>
+        <item quantity="few">%1$s края земли</item>
+        <item quantity="many">%1$s краёв земли</item>
+        <item quantity="other">%1$s края земли</item>
+    </plurals>
+    <plurals name="medal_parts">
+        <item quantity="one">%1$s часть света</item>
+        <item quantity="few">%1$s части света</item>
+        <item quantity="many">%1$s частей света</item>
+        <item quantity="other">%1$s части света</item>
+    </plurals>
+    <plurals name="medal_tasks">
+        <item quantity="one">%1$s задание выполнено</item>
+        <item quantity="few">%1$s задания выполнено</item>
+        <item quantity="many">%1$s заданий выполнено</item>
+        <item quantity="other">%1$s задания выполнено</item>
+    </plurals>
+    <plurals name="q_week_days">
+        <item quantity="one">Выполнить задание дня %1$d день за неделю</item>
+        <item quantity="few">Выполнить задание дня %1$d дня за неделю</item>
+        <item quantity="many">Выполнить задание дня %1$d дней за неделю</item>
+        <item quantity="other">Выполнить задание дня %1$d дня за неделю</item>
+    </plurals>
+    <plurals name="p_lands_more">
+        <item quantity="one">и ещё %1$d земля</item>
+        <item quantity="few">и ещё %1$d земли</item>
+        <item quantity="many">и ещё %1$d земель</item>
+        <item quantity="other">и ещё %1$d земли</item>
     </plurals>
 </resources>

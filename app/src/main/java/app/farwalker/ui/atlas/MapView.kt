@@ -508,6 +508,46 @@ private fun DrawScope.towns(world: World, j: Journey, travel: Travel, p: Proj, t
         if (!show) continue
         if (t.capital || t.cape) put(t, plain, 3.2f * s) else put(t, small, 2.4f * s, C.ink.copy(alpha = 0.7f))
     }
+    // The sights last, so they never push a town's name off: a small star where each stands, red once
+    // seen, named in italics while there's room.
+    if (k > 12) {
+        val sightStyle = T.MapTown.copy(fontSize = 12.sp, color = C.red)
+        for (sg in world.sights) {
+            if (!p.visible(sg.lat, sg.lon, 10f)) continue
+            val o = Offset(p.x(sg.lon), p.y(sg.lat))
+            // Not over a name already written, nor over the traveller.
+            if (marker.contains(o) || placed.any { it.contains(o) }) continue
+            val seen = sg.key in j.sights
+            star(o, 6f * s, seen)
+            val m = text.measure(sg.name(ru), sightStyle)
+            val size = Size(m.size.width.toFloat(), m.size.height.toFloat())
+            val gap = 9 * s
+            // Right of the star, left, above, below: wherever no name or the traveller is yet.
+            val box = listOf(
+                Rect(Offset(o.x + gap, o.y - size.height / 2), size),
+                Rect(Offset(o.x - gap - size.width, o.y - size.height / 2), size),
+                Rect(Offset(o.x - size.width / 2, o.y - gap - size.height), size),
+                Rect(Offset(o.x - size.width / 2, o.y + gap), size),
+            ).firstOrNull { b -> !b.overlaps(marker) && placed.none { it.overlaps(b) } } ?: continue
+            placed += box
+            label(text, sg.name(ru), sightStyle.copy(color = if (seen) C.red else C.muted), box.topLeft)
+        }
+    }
+}
+
+/** A sight's star: five points, red once seen, paper until then. */
+private fun DrawScope.star(o: Offset, r: Float, seen: Boolean) {
+    val path = Path()
+    for (i in 0 until 10) {
+        val a = Math.PI * 2 * i / 10 - Math.PI / 2
+        val rr = if (i % 2 == 0) r else r * 0.45f
+        val x = o.x + (kotlin.math.cos(a) * rr).toFloat()
+        val y = o.y + (kotlin.math.sin(a) * rr).toFloat()
+        if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
+    }
+    path.close()
+    drawPath(path, if (seen) C.red else C.land)
+    drawPath(path, C.ink, style = Stroke(0.9f * density))
 }
 
 private fun DrawScope.traveller(world: World, j: Journey, travel: Travel, p: Proj) {

@@ -6,6 +6,32 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [Unreleased]
+
+### Added
+- Sights: 81 famous places round the world, from the Eiffel Tower to Machu Picchu, each with a line on what it is. A sight is collected on reaching the town nearest it; they stand as stars on the map, wait in the goal search and under "Sights nearby", and fill a page of the passport, with a button to set out for any of them (#1, #3).
+- Medals in the passport: km on foot, countries, sights, ends of the earth, parts of the world, a long day, the sea, round the earth, tasks done (#1).
+- Tasks, in the journal: today's steps, the week's km and the days of the week the day's task was met. Sized by your own recent days; each pays coins as soon as it is done (#5).
+- A widget for the home screen: the day and the land underfoot, where the traveller is, today's steps, the road to the next town and the day's task, beside a small engraved map of the country round the traveller (#3, #4).
+- Sights, medals and tasks done are news of the road, in the journal and as notifications.
+
+### Changed
+- The passport opens on its own page: the states stamped, the km on foot, by train and by sea, the days on the road. Stamps, medals and sights are three tabs; the medals stand in a row for each kind, with how far it is to the next one, and the sights are split into the ones seen and the ones ahead, nearest first.
+- The journal opens on the week: a bar for each day's steps with the day's task marked on it, and the three tasks under it. A day's medals and tasks done are gathered on one line each.
+
+### Fixed
+- Steps no longer stop being counted after coming back to the app within a moment (the notification shade, a permission dialog): Android could close the app as the background counting stopped too early, and nothing was counted until it was opened again (#7).
+- A step counter reading lower than the last one without a reboot no longer lands the whole count since boot as new steps, and no reading brings more steps than could be walked since the last one.
+- Step counting passed by on the first screens can be allowed later: on the atlas and in Settings → Steps.
+- On MIUI and others that drop an app's background work when it is swiped away, the widget puts the quarter-hourly step reading back every half hour.
+- Belarus is "Беларусь" in Russian (#2), and Kazakhstan's capital is Astana again.
+
+<!-- tg
+Кругосветка: достопримечательности мира (81 место) — звёзды на карте, коллекция в паспорте, можно выбрать целью; медали за километры, страны и места
+Задания на день и на неделю, обновлённые паспорт и дневник; виджет с картой для рабочего стола
+Исправлено: шаги переставали считаться после быстрого возврата в приложение; Беларусь и Астана названы правильно
+-->
+
 ## [1.1.0] - 2026-11-03
 
 ### Added

@@ -1,5 +1,6 @@
 package app.farwalker.data
 
+import android.os.SystemClock
 import app.farwalker.domain.Journey
 import app.farwalker.domain.Note
 import app.farwalker.domain.ShipOffer
@@ -67,18 +68,24 @@ class Trip(private val file: File, val travel: Travel, private val stride: suspe
     suspend fun board(s: ShipOffer) = change { travel.board(it, s, System.currentTimeMillis()) }
 
     /** The clock alone: rides move on, the night is written down. */
-    suspend fun tick(): List<Note> = change { if (it.started) travel.tick(it, System.currentTimeMillis(), today()) else emptyList() }
+    suspend fun tick(): List<Note> = change {
+        if (it.started) travel.tick(it, System.currentTimeMillis(), today()) + travel.settle(it, today()) else emptyList()
+    }
 
     /**
      * A reading of the step counter: the steps since the last one are spread over the days they were
      * walked on and walked along the road.
      */
-    suspend fun reading(value: Long, at: Long = System.currentTimeMillis()): List<Note> {
+    suspend fun reading(
+        value: Long,
+        at: Long = System.currentTimeMillis(),
+        bootAt: Long = System.currentTimeMillis() - SystemClock.elapsedRealtime(),
+    ): List<Note> {
         val m = stride()
         return change { jj ->
             val out = mutableListOf<Note>()
             if (jj.lastValue >= 0 && jj.started) {
-                val d = Steps.delta(jj.lastValue, value)
+                val d = Steps.delta(jj.lastValue, jj.lastAt, value, at, bootAt)
                 for ((day, n) in Steps.spread(d, if (jj.lastAt > 0) jj.lastAt else at, at, zone()).toSortedMap()) {
                     jj.days[day] = (jj.days[day] ?: 0) + n
                     out += travel.walk(jj, n * m / 1000.0, day)
@@ -86,7 +93,7 @@ class Trip(private val file: File, val travel: Travel, private val stride: suspe
             }
             jj.lastValue = value
             jj.lastAt = at
-            if (jj.started) out += travel.tick(jj, at, today())
+            if (jj.started) { out += travel.tick(jj, at, today()); out += travel.settle(jj, today()) }
             out
         }
     }
@@ -105,6 +112,7 @@ class Trip(private val file: File, val travel: Travel, private val stride: suspe
                     out += travel.walk(jj, n * m / 1000.0, day)
                 }
                 out += travel.tick(jj, at, today())
+                out += travel.settle(jj, today())
             }
             jj.lastValue = -1
             jj.lastAt = 0
@@ -118,7 +126,7 @@ class Trip(private val file: File, val travel: Travel, private val stride: suspe
         return change { jj ->
             val day = today()
             jj.days[day] = (jj.days[day] ?: 0) + n
-            travel.walk(jj, n * m / 1000.0, day)
+            travel.walk(jj, n * m / 1000.0, day) + travel.settle(jj, day)
         }
     }
 }

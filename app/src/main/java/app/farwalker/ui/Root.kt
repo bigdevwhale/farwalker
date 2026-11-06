@@ -54,6 +54,7 @@ import app.farwalker.ui.settings.SettingsScreen
 import app.farwalker.ui.theme.C
 import app.farwalker.ui.theme.T
 import app.farwalker.work.Notes
+import app.farwalker.work.RoadWidget
 import app.farwalker.work.WalkService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.conflate
@@ -119,7 +120,7 @@ fun FarwalkerRoot(settings: Settings) {
         }
         // Out of sight: a quiet foreground service keeps counting until it's open again.
         // Not needed with Health Connect: the health app counts on its own.
-        onPauseOrDispose { job.cancel(); if (!health) WalkService.start(ctx) }
+        onPauseOrDispose { job.cancel(); if (!health) WalkService.start(ctx); c.write { RoadWidget.updateAll(app) } }
     }
     val j = state
     if (!settings.onboarded || j == null || !j.started) {
@@ -142,7 +143,7 @@ fun FarwalkerRoot(settings: Settings) {
             Box(Modifier.weight(1f).fillMaxWidth()) {
                 when (tab) {
                     Tab.ATLAS -> AtlasScreen(home, camera, onGoal = { push(Overlay.Goal) }, onSettings = { push(Overlay.Settings) })
-                    Tab.PASSPORT -> PassportScreen(home)
+                    Tab.PASSPORT -> PassportScreen(home, onAim = { town -> c.write { trip.aim(town) }; camera.follow = true; tab = Tab.ATLAS })
                     Tab.JOURNAL -> JournalScreen(home)
                 }
             }

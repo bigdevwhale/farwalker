@@ -34,6 +34,7 @@ object DemoSeed {
             val noon = d * 86_400_000L + 12 * 3_600_000L
             travel.ship(j)?.let { s -> if (j.coins >= s.fare) travel.board(j, s, noon) }
             if (d % 10 == 1L) travel.trains(j).lastOrNull { it.km < 450 && it.fare <= j.coins }?.let { travel.board(j, it, noon) }
+            travel.settle(j, d)
             travel.tick(j, (d + 1) * 86_400_000L, d + 1)
             if (j.dest < 0 && j.ride == null && goal + 1 < ROUTE.size) {
                 goal++
@@ -43,6 +44,7 @@ object DemoSeed {
         // Today is under way too.
         j.days[today] = 6_840
         travel.walk(j, 6_840 * 0.72 / 1000.0, today)
+        travel.settle(j, today)
         c.settings.update { it.copy(onboarded = true, told = j.notes.size) }
         Store.write(file, j)
         c.trip.reload()
