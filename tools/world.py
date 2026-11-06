@@ -118,6 +118,17 @@ LANES = [
 ]
 
 
+# Towns renamed since Natural Earth last caught up, by Wikidata id: (English, Russian).
+RENAMED = {
+    "Q1520": ("Astana", "Астана"),  # Nur-Sultan again Astana since 2022
+}
+
+# Countries' Russian names where Natural Earth's isn't the one the country itself uses, by iso.
+COUNTRY_RU = {
+    "BLR": "Беларусь",  # not "Белоруссия" (#2)
+}
+
+
 # Outlines Natural Earth draws as their own sovereign but which aren't UN members or observers.
 NOT_UN = {"TWN", "KOS", "CYN", "SOL", "SAH", "KAS", "ATA", "FLK", "IOT"}
 
@@ -171,7 +182,7 @@ def main():
         # Where the name goes on the map: inside the biggest piece.
         big = max(g.geoms, key=lambda q: q.area) if g.geom_type == "MultiPolygon" else g
         label = big.representative_point()
-        rows.append((iso, p["NAME"], p["NAME_RU"] or p["NAME"], p["CONTINENT"], kind,
+        rows.append((iso, p["NAME"], COUNTRY_RU.get(iso) or p["NAME_RU"] or p["NAME"], p["CONTINENT"], kind,
                      f"{label.y:.2f}", f"{label.x:.2f}", f"{big.area:.1f}"))
         geoms.append(g)
         isos.append(iso)
@@ -203,7 +214,9 @@ def main():
         # English names as an English reader knows them (Copenhagen, not København); NAME stays the key
         # the hand-written lanes are matched on.
         en = " ".join((p["NAME_EN"] or p["NAME"]).split())
-        towns.append(dict(key=p["NAME"], en=en, ru=" ".join((p["NAME_RU"] or en).split()), iso=p["ADM0_A3"], lat=lat, lon=lon,
+        ru = " ".join((p["NAME_RU"] or en).split())
+        en, ru = RENAMED.get(p["WIKIDATAID"], (en, ru))
+        towns.append(dict(key=p["NAME"], en=en, ru=ru, iso=p["ADM0_A3"], lat=lat, lon=lon,
                           pop=max(0, int(p["POP_MAX"])), tz=p["TIMEZONE"] or "", wd=p["WIKIDATAID"] or "",
                           flags=flags))
     for en, ru, lat, lon, iso in CAPES:
