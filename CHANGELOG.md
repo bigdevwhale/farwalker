@@ -6,7 +6,7 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
-## [Unreleased]
+## [1.2.0] - 2026-11-07
 
 ### Added
 - Sights: 81 famous places round the world, from the Eiffel Tower to Machu Picchu, each with a line on what it is. A sight is collected on reaching the town nearest it; they stand as stars on the map, wait in the goal search and under "Sights nearby", and fill a page of the passport, with a button to set out for any of them (#1, #3).
@@ -27,7 +27,7 @@ then close it like any HTML comment. The release notes carry it, and the chat bo
 - Belarus is "Беларусь" in Russian (#2), and Kazakhstan's capital is Astana again.
 
 <!-- tg
-Кругосветка: достопримечательности мира (81 место) — звёзды на карте, коллекция в паспорте, можно выбрать целью; медали за километры, страны и места
+Кругосветка 1.2.0: достопримечательности мира (81 место) — звёзды на карте, коллекция в паспорте, можно выбрать целью; медали за километры, страны и места
 Задания на день и на неделю, обновлённые паспорт и дневник; виджет с картой для рабочего стола
 Исправлено: шаги переставали считаться после быстрого возврата в приложение; Беларусь и Астана названы правильно
 -->
