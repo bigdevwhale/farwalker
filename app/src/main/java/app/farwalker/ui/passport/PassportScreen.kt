@@ -143,6 +143,7 @@ fun PassportScreen(home: Home, onAim: (Int) -> Unit) {
     openSight?.let { sg ->
         PaperDialog(onDismiss = { openSight = null }) {
             val at = j.sights[sg.key]
+            SightPolaroid(sg, sg.name(home.ru), if (at != null) w.date(at) else stringResource(R.string.p_photo_ahead), at != null, Modifier.padding(vertical = 6.dp))
             Text(sg.name(home.ru), style = T.Title)
             Text(w.country(sg.iso) + " · " + stringResource(R.string.p_near, w.town(sg.town)), style = T.Italic)
             Text(sg.about(home.ru), style = T.Body)

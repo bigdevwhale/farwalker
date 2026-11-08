@@ -6,6 +6,17 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.3.0] - 2026-11-08
+
+### Added
+- A photo for every sight, as an instant print on its card: in colour, with the day you got there, once it is seen; faded and grey until then (#9). The 81 photos come from Wikimedia Commons; authors and licences are in `assets/sights/CREDITS.txt`.
+- Phu Quoc, the island off Vietnam, with a ferry from Rach Gia (#8). Towns and roads already on your journey keep their numbers when new places are added.
+
+<!-- tg
+У каждой достопримечательности теперь своя фотокарточка: цветная, с датой, когда вы дошли, и выцветшая, пока место впереди.
+Добавлен остров Фукуок во Вьетнаме, туда ходит паром из Ратьзя.
+-->
+
 ## [1.2.0] - 2026-11-07
 
 ### Added

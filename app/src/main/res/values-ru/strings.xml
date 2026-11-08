@@ -132,7 +132,7 @@
     <string name="community_follow_sub">Сообщение, когда выйдет новая версия</string>
     <string name="community_chat">Чат StillCraft</string>
     <string name="community_chat_sub">Поговорить с теми, кто пользуется приложениями</string>
-    <string name="s_credits">Карты: Natural Earth (общественное достояние). Погода: Open-Meteo и MET Norway. Шрифты: Cormorant и PT Serif (SIL OFL).</string>
+    <string name="s_credits">Карты: Natural Earth (общественное достояние). Фото достопримечательностей: Wikimedia Commons, авторы и лицензии в assets/sights/CREDITS.txt и на GitHub. Погода: Open-Meteo и MET Norway. Шрифты: Cormorant и PT Serif (SIL OFL).</string>
     <string name="s_steps">Добавить шаги (проверка)</string>
 
     <string name="o_title">Кругосветка</string>
@@ -169,6 +169,7 @@
     <string name="p_medals">Медали</string>
     <string name="p_near">рядом: %1$s</string>
     <string name="p_seen">Увидено %1$s</string>
+    <string name="p_photo_ahead">ещё впереди</string>
     <string name="p_unseen">Ещё не увидено. Засчитывается в городе %1$s.</string>
     <string name="p_go">Отправиться туда</string>
     <string name="p_won">Получена %1$s</string>

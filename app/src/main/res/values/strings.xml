@@ -132,7 +132,7 @@
     <string name="community_follow_sub">A message when a new version is out</string>
     <string name="community_chat">StillCraft chat</string>
     <string name="community_chat_sub">Talk to other people who use the apps</string>
-    <string name="s_credits">Maps: Natural Earth (public domain). Weather: Open-Meteo and MET Norway. Fonts: Cormorant and PT Serif (SIL OFL).</string>
+    <string name="s_credits">Maps: Natural Earth (public domain). Sight photos: Wikimedia Commons, authors and licences in assets/sights/CREDITS.txt and on GitHub. Weather: Open-Meteo and MET Norway. Fonts: Cormorant and PT Serif (SIL OFL).</string>
     <string name="s_steps">Add steps (test)</string>
 
     <string name="o_title">Farwalker</string>
@@ -169,6 +169,7 @@
     <string name="p_medals">Medals</string>
     <string name="p_near">near %1$s</string>
     <string name="p_seen">Seen on %1$s</string>
+    <string name="p_photo_ahead">still ahead</string>
     <string name="p_unseen">Not seen yet. It is collected on reaching %1$s.</string>
     <string name="p_go">Set out for it</string>
     <string name="p_won">Won on %1$s</string>

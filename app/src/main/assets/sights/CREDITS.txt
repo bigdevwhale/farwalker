@@ -1,0 +1,82 @@
+# Photos of the sights, from Wikimedia Commons. file, sight, Commons file, author, licence, source
+eiffel_tower.jpg	Eiffel Tower	Tour_Eiffel_Wikimedia_Commons_(cropped).jpg	Benh LIEU SONG	Public domain	https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg
+mont_saint_michel.jpg	Mont-Saint-Michel	Mont-Saint-Michel_vu_du_ciel.jpg	Amaustan	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Mont-Saint-Michel_vu_du_ciel.jpg
+colosseum.jpg	Colosseum	Colosseo_2020.jpg	FeaturedPics	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg
+leaning_tower_of_pisa.jpg	Leaning Tower of Pisa	Italy_-_Pisa_-_Leaning_Tower.jpg	Arne Müseler	CC BY-SA 3.0 de	https://commons.wikimedia.org/wiki/File:Italy_-_Pisa_-_Leaning_Tower.jpg
+venice.jpg	Venice	Venezia_aerial_view.jpg	kallerna	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Venezia_aerial_view.jpg
+sagrada_fam_lia.jpg	Sagrada Família	SF_maig_2_cropped.jpg	Canaan	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:SF_maig_2_cropped.jpg
+alhambra.jpg	Alhambra	Dawn_Charles_V_Palace_Alhambra_Granada_Andalusia_Spain.jpg	Jebulon	CC0	https://commons.wikimedia.org/wiki/File:Dawn_Charles_V_Palace_Alhambra_Granada_Andalusia_Spain.jpg
+acropolis.jpg	Acropolis	The_Acropolis_of_Athens_on_June_1,_2021.jpg	George E. Koronaios	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:The_Acropolis_of_Athens_on_June_1%2C_2021.jpg
+stonehenge.jpg	Stonehenge	Stonehenge2007_07_30.jpg	garethwiscombe	CC BY 2.0	https://commons.wikimedia.org/wiki/File:Stonehenge2007_07_30.jpg
+big_ben.jpg	Big Ben	Elizabeth_Tower_and_the_north_front_of_the_Palace_of_Westminster,_London.jpg	Christian David	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Elizabeth_Tower_and_the_north_front_of_the_Palace_of_Westminster%2C_London.jpg
+edinburgh_castle.jpg	Edinburgh Castle	Edinburgh_Castle_from_Esplanade_20211019.jpg	Daniel Kraft	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Edinburgh_Castle_from_Esplanade_20211019.jpg
+cliffs_of_moher.jpg	Cliffs of Moher	Cliffs-Of-Moher-OBriens-From-South.JPG	Bjørn Christian Tørrissen	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Cliffs-Of-Moher-OBriens-From-South.JPG
+brandenburg_gate.jpg	Brandenburg Gate	Brandenburger_Tor_abends.jpg	Thomas Wolf, www.foto-tw.de	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Brandenburger_Tor_abends.jpg
+neuschwanstein.jpg	Neuschwanstein	Schloss_Neuschwanstein_2013.jpg	Thomas Wolf, www.foto-tw.de	CC BY-SA 3.0 de	https://commons.wikimedia.org/wiki/File:Schloss_Neuschwanstein_2013.jpg
+matterhorn.jpg	Matterhorn	Matterhorn_from_Domhütte_-_2.jpg	Photo: chil, on Camptocamp.org Derivative work:Zacharie Grossen	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Matterhorn_from_Domh%C3%BCtte_-_2.jpg
+prague_castle.jpg	Prague Castle	Karlův_most_Praha,_Staré_Město_20170810_007.jpg	Tilman2007	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Karl%C5%AFv_most_Praha%2C_Star%C3%A9_M%C4%9Bsto_20170810_007.jpg
+sch_nbrunn_palace.jpg	Schönbrunn Palace	Wien_-_Schloss_Schönbrunn.JPG	C.Stadler/Bwag	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Wien_-_Schloss_Sch%C3%B6nbrunn.JPG
+rijksmuseum.jpg	Rijksmuseum	South_facade_of_the_Rijksmuseum_Amsterdam_(DSCF0528).jpg	Trougnouf (Benoit Brummer)	CC BY 4.0	https://commons.wikimedia.org/wiki/File:South_facade_of_the_Rijksmuseum_Amsterdam_%28DSCF0528%29.jpg
+grand_place.jpg	Grand-Place	Grand-Place,_Brussels_-_panorama,_June_2018.jpg	Celuici	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Grand-Place%2C_Brussels_-_panorama%2C_June_2018.jpg
+little_mermaid.jpg	Little Mermaid	Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 01.jpg	Gary Todd	CC0	https://commons.wikimedia.org/wiki/File:Expo%202010%20Denmark%20Pavilion-%20Little%20Mermaid%20Statue%20from%20Copenhagen%20Harbor%2001.jpg
+geirangerfjord.jpg	Geirangerfjord	Geirangerfjord_.jpg	Andreas Trepte	CC BY-SA 2.5	https://commons.wikimedia.org/wiki/File:Geirangerfjord_.jpg
+blue_lagoon.jpg	Blue Lagoon	Blue Lagoon Geothermal pool 03.jpg	Netha Hussain	CC0	https://commons.wikimedia.org/wiki/File:Blue%20Lagoon%20Geothermal%20pool%2003.jpg
+charles_bridge.jpg	Charles Bridge	Prague_07-2016_view_from_Lesser_Town_Tower_of_Charles_Bridge_img3.jpg	A.Savin	FAL	https://commons.wikimedia.org/wiki/File:Prague_07-2016_view_from_Lesser_Town_Tower_of_Charles_Bridge_img3.jpg
+wieliczka_salt_mine.jpg	Wieliczka Salt Mine	Αλατωρυχεία_Βιελίτσκα_5021.jpg	C messier	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:%CE%91%CE%BB%CE%B1%CF%84%CF%89%CF%81%CF%85%CF%87%CE%B5%CE%AF%CE%B1_%CE%92%CE%B9%CE%B5%CE%BB%CE%AF%CF%84%CF%83%CE%BA%CE%B1_5021.jpg
+dubrovnik_walls.jpg	Dubrovnik Walls	Dubrovnik_s_24.jpg	Miroslav.vajdic	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Dubrovnik_s_24.jpg
+plitvice_lakes.jpg	Plitvice Lakes	View_in_Plitvice_Lakes_National_Park.jpg	Zysko serhii	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:View_in_Plitvice_Lakes_National_Park.jpg
+hagia_sophia.jpg	Hagia Sophia	Hagia_Sophia_(228968325).jpeg	Adli Wahid	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Hagia_Sophia_%28228968325%29.jpeg
+cappadocia.jpg	Cappadocia	Cappadocia_balloon_trip,_Ortahisar_Castle_(11893715185).jpg	Arian Zwegers from Brussels, Belgium	CC BY 2.0	https://commons.wikimedia.org/wiki/File:Cappadocia_balloon_trip%2C_Ortahisar_Castle_%2811893715185%29.jpg
+red_square.jpg	Red Square	Kremlin_and_Red_Square.1.jpg	mos.ru	CC BY 4.0	https://commons.wikimedia.org/wiki/File:Kremlin_and_Red_Square.1.jpg
+hermitage.jpg	Hermitage	5174-3._St._Petersburg._Greater_Hermitage.jpg	GAlexandrova	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:5174-3._St._Petersburg._Greater_Hermitage.jpg
+lake_baikal.jpg	Lake Baikal	Берег острова Ольхон.jpg	Alit Variatos	CC0	https://commons.wikimedia.org/wiki/File:%D0%91%D0%B5%D1%80%D0%B5%D0%B3%20%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B2%D0%B0%20%D0%9E%D0%BB%D1%8C%D1%85%D0%BE%D0%BD.jpg
+kizhi.jpg	Kizhi	Церковь_Преображения_Господня_на_острове_Кижи_вид_с_вертолёта.jpg	AleksandrBorisov	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:%D0%A6%D0%B5%D1%80%D0%BA%D0%BE%D0%B2%D1%8C_%D0%9F%D1%80%D0%B5%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F_%D0%93%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%BD%D1%8F_%D0%BD%D0%B0_%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B2%D0%B5_%D0%9A%D0%B8%D0%B6%D0%B8_%D0%B2%D0%B8%D0%B4_%D1%81_%D0%B2%D0%B5%D1%80%D1%82%D0%BE%D0%BB%D1%91%D1%82%D0%B0.jpg
+mount_elbrus.jpg	Mount Elbrus	Mount_Elbrus_(cropped).jpg	Aleksandr Markin	CC BY-SA 2.0	https://commons.wikimedia.org/wiki/File:Mount_Elbrus_%28cropped%29.jpg
+kyiv_pechersk_lavra.jpg	Kyiv Pechersk Lavra	Лавра.jpg	Falin	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:%D0%9B%D0%B0%D0%B2%D1%80%D0%B0.jpg
+mir_castle.jpg	Mir Castle	Комплекс_Мирского_замка.JPG	Вадзім Новикаў	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81_%D0%9C%D0%B8%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%B7%D0%B0%D0%BC%D0%BA%D0%B0.JPG
+registan.jpg	Registan	RegistanSquare_Samarkand.jpg	Registan_-_Gusjer.jpg: Gustavo Jeronimo from Aranjuez, Spain derivative work: MrPanyGoff	CC BY 2.0	https://commons.wikimedia.org/wiki/File:RegistanSquare_Samarkand.jpg
+charyn_canyon.jpg	Charyn Canyon	Charyn_Canyon,_Kazakhstan_03.jpg	Bgag	CC0	https://commons.wikimedia.org/wiki/File:Charyn_Canyon%2C_Kazakhstan_03.jpg
+petra.jpg	Petra	Al_Deir_Petra.JPG	Azurfrog	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Al_Deir_Petra.JPG
+western_wall.jpg	Western Wall	Westernwall2.jpg	Golasso	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Westernwall2.jpg
+burj_khalifa.jpg	Burj Khalifa	Burj_Khalifa_(worlds_tallest_building)_and_the_Dubai_skyline_(25781049892).jpg	imran shahabuddin	CC BY 2.0	https://commons.wikimedia.org/wiki/File:Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg
+persepolis.jpg	Persepolis	2018-09-21_Iran,_Persepolis,_Tachara_(from_the_southeast).jpg	Laurens R. Krol	CC BY 4.0	https://commons.wikimedia.org/wiki/File:2018-09-21_Iran%2C_Persepolis%2C_Tachara_%28from_the_southeast%29.jpg
+taj_mahal.jpg	Taj Mahal	Taj_Mahal_(Edited).jpeg	Yann; edited by Jim Carter	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Taj_Mahal_%28Edited%29.jpeg
+golden_temple.jpg	Golden Temple	The_Golden_Temple_of_Amrithsar_7.jpg	Shagil Kannur	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:The_Golden_Temple_of_Amrithsar_7.jpg
+mount_everest.jpg	Mount Everest	Mt._Everest_from_Gokyo_Ri_November_5,_2012.jpg	Rdevany	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Mt._Everest_from_Gokyo_Ri_November_5%2C_2012.jpg
+great_wall_of_china.jpg	Great Wall of China	The_Great_Wall_of_China_at_Jinshanling-edit.jpg	Severin.stalder	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:The_Great_Wall_of_China_at_Jinshanling-edit.jpg
+forbidden_city.jpg	Forbidden City	The_Forbidden_City_-_View_from_Coal_Hill.jpg	Pixelflake	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:The_Forbidden_City_-_View_from_Coal_Hill.jpg
+terracotta_army.jpg	Terracotta Army	51714-Terracota-Army.jpg	xiquinhosilva	CC BY 2.0	https://commons.wikimedia.org/wiki/File:51714-Terracota-Army.jpg
+potala_palace.jpg	Potala Palace	Potala_Palace_HQ.jpg	Lhasa Government	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Potala_Palace_HQ.jpg
+mount_fuji.jpg	Mount Fuji	View_of_Mount_Fuji_from_Ōwakudani_20211202.jpg	Suicasmo	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg
+fushimi_inari.jpg	Fushimi Inari	Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg	Basile Morin	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg
+angkor_wat.jpg	Angkor Wat	Angkor_Wat.jpg	Bjørn Christian Tørrissen	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Angkor_Wat.jpg
+ha_long_bay.jpg	Ha Long Bay	Ha_Long_Bay_in_2019.jpg	Taewangkorea	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Ha_Long_Bay_in_2019.jpg
+borobudur.jpg	Borobudur	Pradaksina.jpg	Heri nugroho	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Pradaksina.jpg
+marina_bay.jpg	Marina Bay	Marina_Bay_Sands_(I).jpg	This Photo was taken by Supanut Arunoprayote. Feel free to use any of my images, but please mention me as the author and may send me a message. (สามารถใช้ภาพได้อิสระ แต่กรุณาใส่เครดิตผู้ถ่ายและอาจส่งข้อความบอกกล่าวด้วย) Please do not upload an updated image here without consultation with the Author. The author would like to make corrections only at his own source. This ensures that the changes are preserved.Please if you think that any changes should be required, please inform the author.Otherwise you can upload a new image with a new name. Please use one of the templates derivative or extract.	CC BY 4.0	https://commons.wikimedia.org/wiki/File:Marina_Bay_Sands_%28I%29.jpg
+sydney_opera_house.jpg	Sydney Opera House	Sydney_Opera_House_2026.jpg	BAVhah	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Sydney_Opera_House_2026.jpg
+great_barrier_reef.jpg	Great Barrier Reef	Heart Reef and Lagoon Great Barrier Reef.jpg	Alphasauce	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Heart%20Reef%20and%20Lagoon%20Great%20Barrier%20Reef.jpg
+milford_sound.jpg	Milford Sound	Milford_Sound_(New_Zealand).JPG	Maros M r a z (Maros)	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Milford_Sound_%28New_Zealand%29.JPG
+pyramids_of_giza.jpg	Pyramids of Giza	Pyramids_of_the_Giza_Necropolis.jpg	KennyOMG	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Pyramids_of_the_Giza_Necropolis.jpg
+abu_simbel.jpg	Abu Simbel	Ramsis,_Aswan_Governorate,_Egypt_-_panoramio.jpg	youssef_alam	CC BY 3.0	https://commons.wikimedia.org/wiki/File:Ramsis%2C_Aswan_Governorate%2C_Egypt_-_panoramio.jpg
+jemaa_el_fnaa.jpg	Jemaa el-Fnaa	Djemaa_el_Fna.jpg	Boris Macek	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:Djemaa_el_Fna.jpg
+kilimanjaro.jpg	Kilimanjaro	Kilimanjaro_from_Amboseli.jpg	Sergey Pesterev	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Kilimanjaro_from_Amboseli.jpg
+serengeti.jpg	Serengeti	015 Wildebeest in the Serengeti National Park Photo by Giles Laurent.jpg	Giles Laurent	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:015%20Wildebeest%20in%20the%20Serengeti%20National%20Park%20Photo%20by%20Giles%20Laurent.jpg
+victoria_falls.jpg	Victoria Falls	Cataratas_Victoria,_Zambia-Zimbabue,_2018-07-27,_DD_04.jpg	Diego Delso	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Cataratas_Victoria%2C_Zambia-Zimbabue%2C_2018-07-27%2C_DD_04.jpg
+table_mountain.jpg	Table Mountain	Table_Mountain_DanieVDM.jpg	Danie van der Merwe from Cape Town, South Africa	CC BY 2.0	https://commons.wikimedia.org/wiki/File:Table_Mountain_DanieVDM.jpg
+lalibela.jpg	Lalibela	Lalibela,_san_giorgio,_esterno_24.jpg	Sailko	CC BY 3.0	https://commons.wikimedia.org/wiki/File:Lalibela%2C_san_giorgio%2C_esterno_24.jpg
+statue_of_liberty.jpg	Statue of Liberty	Front_view_of_Statue_of_Liberty_(cropped).jpg	AskALotl	CC0	https://commons.wikimedia.org/wiki/File:Front_view_of_Statue_of_Liberty_%28cropped%29.jpg
+golden_gate_bridge.jpg	Golden Gate Bridge	Golden_Gate_Bridge_as_seen_from_Battery_East.jpg	Frank Schulenburg	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Golden_Gate_Bridge_as_seen_from_Battery_East.jpg
+grand_canyon.jpg	Grand Canyon	Canyon_River_Tree_(165872763).jpeg	Lennart Sikkema	CC BY 3.0	https://commons.wikimedia.org/wiki/File:Canyon_River_Tree_%28165872763%29.jpeg
+yellowstone.jpg	Yellowstone	Grand_Canyon_of_the_Yellowstone_Lower_Falls_(95819p).jpg	Rhododendrites	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Grand_Canyon_of_the_Yellowstone_Lower_Falls_%2895819p%29.jpg
+niagara_falls.jpg	Niagara Falls	3Falls_Niagara.jpg	Saffron Blaze	CC BY-SA 3.0	https://commons.wikimedia.org/wiki/File:3Falls_Niagara.jpg
+banff.jpg	Banff	Town_of_Banff_viewed_from_Sulphur_Mountain.jpg	Ethan Sahagun	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Town_of_Banff_viewed_from_Sulphur_Mountain.jpg
+chichen_itza.jpg	Chichen Itza	Chichen_Itza_3.jpg	Daniel Schwen	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Chichen_Itza_3.jpg
+teotihuacan.jpg	Teotihuacan	ZA77_Teotihuacán_edo_de_mex_Herberto_de_la_rosa.jpg	Hdlrosa	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:ZA77_Teotihuac%C3%A1n_edo_de_mex_Herberto_de_la_rosa.jpg
+panama_canal.jpg	Panama Canal	Container Ship Enters Miraflores Locks - Panama Canal.jpg	Adam Jones	CC BY-SA 2.0	https://commons.wikimedia.org/wiki/File:Container%20Ship%20Enters%20Miraflores%20Locks%20-%20Panama%20Canal.jpg
+machu_picchu.jpg	Machu Picchu	Machu_Picchu,_2023_(012).jpg	Draceane	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Machu_Picchu%2C_2023_%28012%29.jpg
+christ_the_redeemer.jpg	Christ the Redeemer	Christ_the_Redeemer_-_Cristo_Redentor.jpg	Arne Müseler	CC BY-SA 3.0 de	https://commons.wikimedia.org/wiki/File:Christ_the_Redeemer_-_Cristo_Redentor.jpg
+iguazu_falls.jpg	Iguazu Falls	Aerial_Foz_de_Iguaçu_26_Nov_2005.jpg	Mariordo (Mario Roberto Durán Ortiz)	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Aerial_Foz_de_Igua%C3%A7u_26_Nov_2005.jpg
+perito_moreno_glacier.jpg	Perito Moreno Glacier	Perito_Moreno_Glacier_2023.jpg	Fernando	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Perito_Moreno_Glacier_2023.jpg
+salar_de_uyuni.jpg	Salar de Uyuni	Salar_Uyuni_au01.jpg	Anouchka Unel	FAL	https://commons.wikimedia.org/wiki/File:Salar_Uyuni_au01.jpg
+gal_pagos.jpg	Galápagos	Lobo_marino_(Zalophus_californianus_wollebaeki),_Punta_Pitt,_isla_de_San_Cristóbal,_islas_Galápagos,_Ecuador,_2015-07-24,_DD_11.JPG	Diego Delso	CC BY-SA 4.0	https://commons.wikimedia.org/wiki/File:Lobo_marino_%28Zalophus_californianus_wollebaeki%29%2C_Punta_Pitt%2C_isla_de_San_Crist%C3%B3bal%2C_islas_Gal%C3%A1pagos%2C_Ecuador%2C_2015-07-24%2C_DD_11.JPG
+angel_falls.jpg	Angel Falls	SaltoAngel1.jpg	Rich Childs	CC BY 2.0	https://commons.wikimedia.org/wiki/File:SaltoAngel1.jpg
