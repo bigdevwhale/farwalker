@@ -35,6 +35,14 @@ ROAD_MAX = 420       # ...no further than this many km
 SAMPLE = 4.0         # km between checks along a road
 WET_MAX = 3.0        # a road may cross this many km of sea (estuaries, outline slop); straits take a ferry
 
+# The longest sea lane, km, an added town keeps: its ferry to the mainland, not every port in reach.
+NEW_LANE_MAX = 250
+
+# Towns asked for by travellers that the data lacks. (en, ru, lat, lon, iso, population, time zone, wikidata)
+EXTRA_TOWNS = [
+    ("Phu Quoc", "Фукуок", 10.2167, 103.9600, "VNM", 179480, "Asia/Ho_Chi_Minh", "Q1061285"),  # #8
+]
+
 # Ends of the earth: the capes a traveller goes out of their way for. (en, ru, lat, lon, iso)
 CAPES = [
     ("Cabo da Roca", "Мыс Рока", 38.7804, -9.4989, "PRT"),
@@ -221,6 +229,9 @@ def main():
                           flags=flags))
     for en, ru, lat, lon, iso in CAPES:
         towns.append(dict(key=en, en=en, ru=ru, iso=iso, lat=lat, lon=lon, pop=0, tz="", wd="", flags="X"))
+    # Places travellers asked for that Natural Earth leaves out (islands, mostly).
+    for en, ru, lat, lon, iso, pop, tz, wd in EXTRA_TOWNS:
+        towns.append(dict(key=en, en=en, ru=ru, iso=iso, lat=lat, lon=lon, pop=pop, tz=tz, wd=wd, flags=""))
 
     # The country is taken from the map itself, so a town's stamp matches the outline it stands in.
     lat = np.array([t["lat"] for t in towns])
@@ -455,18 +466,55 @@ def main():
         out_edges.append((i, j, round(d * 1.1), "S", ""))
     out_edges.sort()
 
+    # Journeys on phones keep towns and roads by their number: the ones already shipped keep theirs, and
+    # only new towns, with the roads and lanes that reach them, are added at the end. FRESH=1 starts over.
+    t_lines = [[t["en"], t["ru"], t["iso"], f"{t['lat']:.4f}", f"{t['lon']:.4f}", str(t["pop"]), t["tz"], t["wd"], t["flags"]]
+               for t in towns]
+    e_lines = [f"{i}\t{j}\t{d}\t{mode}\t{cross}" for i, j, d, mode, cross in out_edges]
+    old_t = os.path.join(OUT, "towns.tsv")
+    old_e = os.path.join(OUT, "edges.tsv")
+    if os.environ.get("FRESH") != "1" and os.path.exists(old_t) and os.path.exists(old_e):
+        legacy = [l.rstrip("\n").split("\t") for l in open(old_t, encoding="utf8") if l.strip()]
+        legacy_edges = [l.rstrip("\n") for l in open(old_e, encoding="utf8") if l.strip()]
+        where = {(r[2], r[3], r[4]): k for k, r in enumerate(legacy)}
+        remap, added = {}, []
+        for i, r in enumerate(t_lines):
+            k = where.get((r[2], r[3], r[4]))
+            if k is None:
+                remap[i] = len(legacy) + len(added)
+                added.append(r)
+            else:
+                remap[i] = k
+                legacy[k] = r
+        new_edges = []
+        for i, j, d, mode, cross in out_edges:
+            # An added island gets its ferry, not a lane to every port across the gulf.
+            if mode == "S" and d > NEW_LANE_MAX:
+                continue
+            if remap[i] >= len(legacy) or remap[j] >= len(legacy):
+                a, b = sorted((remap[i], remap[j]))
+                new_edges.append(f"{a}\t{b}\t{d}\t{mode}\t{cross}")
+        # A port that a new lane now reaches gets its flag, as the fresh build would give it.
+        for e in new_edges:
+            for k in map(int, e.split("\t")[:2]):
+                if k < len(legacy) and "P" not in legacy[k][8] and e.split("\t")[3] == "S":
+                    legacy[k][8] += "P"
+        t_lines = legacy + added
+        e_lines = legacy_edges + new_edges
+        out_edges = e_lines
+        print("kept", len(legacy), "towns and", len(legacy_edges), "roads; added", len(added), "towns and", len(new_edges), "roads")
+
     # Write.
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, "countries.tsv"), "w", encoding="utf8", newline="\n") as f:
         for r in sorted(rows):
             f.write("\t".join(r) + "\n")
     with open(os.path.join(OUT, "towns.tsv"), "w", encoding="utf8", newline="\n") as f:
-        for t in towns:
-            f.write("\t".join([t["en"], t["ru"], t["iso"], f"{t['lat']:.4f}", f"{t['lon']:.4f}", str(t["pop"]),
-                               t["tz"], t["wd"], t["flags"]]) + "\n")
+        for r in t_lines:
+            f.write("\t".join(r) + "\n")
     with open(os.path.join(OUT, "edges.tsv"), "w", encoding="utf8", newline="\n") as f:
-        for i, j, d, mode, cross in out_edges:
-            f.write(f"{i}\t{j}\t{d}\t{mode}\t{cross}\n")
+        for line in e_lines:
+            f.write(line + "\n")
 
     # Outlines: per country, its rings as hundredths of a degree (big-endian, for DataInputStream).
     with open(os.path.join(OUT, "shapes.bin"), "wb") as f:
