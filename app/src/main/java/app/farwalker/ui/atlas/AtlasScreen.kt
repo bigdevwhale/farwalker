@@ -1,5 +1,10 @@
 package app.farwalker.ui.atlas
 
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -190,6 +195,7 @@ private fun Panel(home: Home, onGoal: () -> Unit) {
                     sub = weather?.let { w.sky(it.sky) },
                 )
             }
+            if (ride?.mode != Mode.SHIP && ship == null) RoadsideCard()
             // Steps passed by at the start (or taken back since): nothing moves until they're allowed.
             if (home.settings.healthFrom < 0 && c.sensor.present && !c.sensor.allowed) {
                 Text(stringResource(R.string.steps_not_counted), style = T.Italic.copy(color = C.red))
@@ -219,6 +225,72 @@ private fun Panel(home: Home, onGoal: () -> Unit) {
         }
     }
     if (tickets) Tickets(home, trains, onClose = { tickets = false })
+}
+
+/** What stands by the road where the traveller is now: a Wikipedia article nearby, a tap for the whole note. */
+@Composable
+private fun RoadsideCard() {
+    val c = LocalContext.current.container
+    val now by c.roadside.collectAsState()
+    val sight = now?.sight ?: return
+    var open by remember { mutableStateOf(false) }
+    Row(
+        Modifier.fillMaxWidth().clickable { open = true }.border(1.dp, C.faint).padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        SightPicture(sight.thumb, Modifier.size(52.dp))
+        Spacer(Modifier.width(10.dp))
+        Column(Modifier.weight(1f)) {
+            Text(stringResource(R.string.roadside).uppercase(), style = T.Eyebrow.copy(fontSize = 11.sp))
+            Text(sight.title, style = T.Body.copy(fontWeight = FontWeight.Bold), maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(sight.text, style = T.Small, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        }
+    }
+    if (open) RoadsideNote(sight) { open = false }
+}
+
+/** The whole note: picture, a few sentences, the article, and another place nearby. */
+@Composable
+private fun RoadsideNote(sight: app.farwalker.domain.Roadmark, onClose: () -> Unit) {
+    val ctx = LocalContext.current
+    val c = ctx.container
+    var busy by remember { mutableStateOf(false) }
+    androidx.compose.ui.window.Dialog(onClose) {
+        Column(Modifier.fillMaxWidth().background(C.paper).border(1.dp, C.faint).padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(stringResource(R.string.roadside).uppercase(), style = T.Eyebrow)
+            if (sight.thumb != null) SightPicture(sight.thumb, Modifier.fillMaxWidth().height(170.dp))
+            Text(sight.title, style = T.Title.copy(fontSize = 24.sp, lineHeight = 27.sp))
+            Text(sight.text, style = T.Body)
+            Text(stringResource(R.string.roadside_source), style = T.Small)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Btn(stringResource(R.string.roadside_read), Modifier.weight(1f)) {
+                    runCatching { ctx.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(sight.url))) }
+                }
+                Btn(stringResource(R.string.roadside_another), Modifier.weight(1f), primary = false, enabled = !busy) {
+                    busy = true
+                    c.write { runCatching { refreshRoadside(another = true) }; busy = false }
+                }
+            }
+        }
+    }
+}
+
+/** A picture from the web, as the engraving's plate: sepia frame, nothing while it loads. */
+@Composable
+private fun SightPicture(url: String?, modifier: Modifier) {
+    val bmp by produceState<androidx.compose.ui.graphics.ImageBitmap?>(null, url) {
+        value = if (url == null) null else kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            runCatching {
+                val conn = java.net.URL(url).openConnection() as java.net.HttpURLConnection
+                conn.connectTimeout = 6000; conn.readTimeout = 8000
+                conn.setRequestProperty("User-Agent", "Farwalker/1.0 github.com/bigdevwhale/farwalker")
+                try { conn.inputStream.use { android.graphics.BitmapFactory.decodeStream(it) }?.asImageBitmap() } finally { conn.disconnect() }
+            }.getOrNull()
+        }
+    }
+    Box(modifier.background(C.paperDeep).border(1.dp, C.faint), contentAlignment = Alignment.Center) {
+        bmp?.let { androidx.compose.foundation.Image(it, null, Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop) }
+    }
 }
 
 /**

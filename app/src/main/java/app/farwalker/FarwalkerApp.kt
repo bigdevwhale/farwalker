@@ -8,6 +8,8 @@ import app.farwalker.data.DemoSeed
 import app.farwalker.data.SettingsStore
 import app.farwalker.data.Trip
 import app.farwalker.domain.Geo
+import app.farwalker.domain.Roadside
+import app.farwalker.domain.RoadsideNow
 import app.farwalker.domain.Travel
 import app.farwalker.domain.Weather
 import app.farwalker.domain.World
@@ -50,6 +52,34 @@ class AppContainer(context: Context) {
         if (!force && w != null && System.currentTimeMillis() - w.at < 3_600_000 && Geo.km(lat, lon, w.lat, w.lon) < Weather.FRESH_KM) return
         val now = runCatching { withContext(Dispatchers.IO) { Weather.fetch(lat, lon) } }.getOrNull() ?: return
         settings.update { it.copy(weather = now) }
+    }
+
+    private val roadsideFile = File(app.filesDir, "roadside.json")
+    /** The notable place by the road, as last looked up. */
+    val roadside = kotlinx.coroutines.flow.MutableStateFlow(Roadside.load(roadsideFile))
+
+    /**
+     * Looks up what stands by the road where the traveller is: again only after [Roadside.EVERY_KM] along the way, or
+     * at once when [another] (a new place, not one already shown here).
+     */
+    suspend fun refreshRoadside(another: Boolean = false) {
+        val j = trip.state.value ?: return
+        if (!j.started) return
+        val (lat, lon) = travel.position(j)
+        val ru = app.ru
+        val was = roadside.value
+        if (!another && !Roadside.stale(was, lat, lon, ru)) return
+        val seen = if (was != null && was.ru == ru && !Roadside.stale(was, lat, lon, ru)) was.seen else emptyList()
+        val sight = runCatching { withContext(Dispatchers.IO) { Roadside.near(lat, lon, ru, seen.toSet()) } }
+            .getOrElse { return }
+        // Nothing new nearby: on «another», start the round of this place again.
+        val next = if (sight == null && another && seen.isNotEmpty())
+            runCatching { withContext(Dispatchers.IO) { Roadside.near(lat, lon, ru, emptySet()) } }.getOrNull()
+        else sight
+        val now = RoadsideNow(next, lat, lon, ru, System.currentTimeMillis(),
+            (if (sight == null) emptyList() else seen) + listOfNotNull(next?.title))
+        roadside.value = now
+        withContext(Dispatchers.IO) { Roadside.save(roadsideFile, now) }
     }
 
     /** Reads the steps (the phone's counter, or Health Connect if chosen) and moves the journey on. */

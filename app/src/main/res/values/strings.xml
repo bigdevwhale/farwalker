@@ -248,4 +248,8 @@
         <item quantity="one">and %1$d other land</item>
         <item quantity="other">and %1$d other lands</item>
     </plurals>
+    <string name="roadside">By the road</string>
+    <string name="roadside_read">Read on</string>
+    <string name="roadside_another">Another place</string>
+    <string name="roadside_source">From Wikipedia, within ten kilometres of the traveller.</string>
 </resources>

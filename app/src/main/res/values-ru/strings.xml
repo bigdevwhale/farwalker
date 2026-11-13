@@ -266,4 +266,8 @@
         <item quantity="many">и ещё %1$d земель</item>
         <item quantity="other">и ещё %1$d земли</item>
     </plurals>
+    <string name="roadside">У дороги</string>
+    <string name="roadside_read">Подробнее</string>
+    <string name="roadside_another">Ещё место</string>
+    <string name="roadside_source">Из Википедии, в десяти километрах от путника.</string>
 </resources>

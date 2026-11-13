@@ -6,6 +6,15 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.4.0] - 2026-11-13
+
+### Added
+- «By the road»: under the day's numbers, a notable place within ten kilometres of where the traveller is now – a picture, its name and a few lines from Wikipedia, in the app's language. Tap it for the whole note, «Read on» for the article, «Another place» for the next one nearby. A new place comes every ten kilometres of the way; at sea there's none. Only the traveller's coordinates are sent.
+
+<!-- tg
+Новое: карточка «У дороги» – интересное место в десяти километрах от путника, с фото и парой строк из Википедии. Нажми на неё, чтобы прочитать целиком, или попроси «Ещё место».
+-->
+
 ## [1.3.0] - 2026-11-08
 
 ### Added

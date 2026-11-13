@@ -97,6 +97,7 @@ fun FarwalkerRoot(settings: Settings) {
             // The weather throttles itself to once an hour; asking here also covers a first open,
             // when the journey wasn't read yet as the app came to the front.
             runCatching { c.refreshWeather() }
+            runCatching { c.refreshRoadside() }
             delay(20_000)
             now = ZonedDateTime.now()
             c.trip.tick()
