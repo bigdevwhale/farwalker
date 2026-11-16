@@ -6,6 +6,15 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.4.1] - 2026-11-16
+
+### Fixed
+- «By the road»: a long note no longer pushes «Read on» and «Another place» off the screen. The picture and the text scroll; the buttons stay at the bottom (#16).
+
+<!-- tg
+Исправлено: в карточке «У дороги» длинное описание больше не прячет кнопки «Подробнее» и «Ещё место» – текст теперь прокручивается, а кнопки всегда внизу.
+-->
+
 ## [1.4.0] - 2026-11-13
 
 ### Added

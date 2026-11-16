@@ -9,6 +9,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -258,9 +260,15 @@ private fun RoadsideNote(sight: app.farwalker.domain.Roadmark, onClose: () -> Un
     androidx.compose.ui.window.Dialog(onClose) {
         Column(Modifier.fillMaxWidth().background(C.paper).border(1.dp, C.faint).padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(stringResource(R.string.roadside).uppercase(), style = T.Eyebrow)
-            if (sight.thumb != null) SightPicture(sight.thumb, Modifier.fillMaxWidth().height(170.dp))
-            Text(sight.title, style = T.Title.copy(fontSize = 24.sp, lineHeight = 27.sp))
-            Text(sight.text, style = T.Body)
+            // A long article scrolls in the middle, so the buttons below always stay on screen.
+            Column(
+                Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                if (sight.thumb != null) SightPicture(sight.thumb, Modifier.fillMaxWidth().height(170.dp))
+                Text(sight.title, style = T.Title.copy(fontSize = 24.sp, lineHeight = 27.sp))
+                Text(sight.text, style = T.Body)
+            }
             Text(stringResource(R.string.roadside_source), style = T.Small)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Btn(stringResource(R.string.roadside_read), Modifier.weight(1f)) {
