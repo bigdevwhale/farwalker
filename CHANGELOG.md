@@ -6,6 +6,16 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
+## [1.4.2] - 2026-11-17
+
+### Fixed
+- **The widget fills its cells:** the card is drawn to the widget's own shape, so there are no empty bands above and below it, and widgets can stand closer together. A resized widget redraws to its new size (#18).
+
+<!-- tg
+Виджет теперь занимает всю свою ячейку: пустых полос сверху и снизу больше нет, и виджеты можно ставить плотнее.
+Если поменять размер виджета, карточка перерисуется под новый.
+-->
+
 ## [1.4.1] - 2026-11-16
 
 ### Fixed
