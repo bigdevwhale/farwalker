@@ -98,6 +98,11 @@ abstract class ScreensBase {
         val app = ApplicationProvider.getApplicationContext<FarwalkerApp>()
         val image = RoadWidget.render(app, h.words, h.world, h.travel, h.j)
         File(out, "7-widget.png").outputStream().use { image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+        // The card drawn to other cells' shapes: low (4x1), square-ish (4x2 on a narrow phone), tall.
+        for (hh in listOf(330, 560, 760)) {
+            val other = RoadWidget.render(app, h.words, h.world, h.travel, h.j, hh)
+            File(out, "7-widget-$hh.png").outputStream().use { other.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+        }
     }
 }
 

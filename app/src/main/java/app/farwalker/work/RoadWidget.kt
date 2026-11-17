@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.DashPathEffect
@@ -59,6 +60,14 @@ class RoadWidget : AppWidgetProvider() {
         }
     }
 
+    /** Resized on the home screen: draw again to the new shape, so the card fills its cells. */
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, options: Bundle) {
+        val pending = goAsync()
+        CoroutineScope(Dispatchers.Default).launch {
+            try { updateAll(context) } finally { pending.finish() }
+        }
+    }
+
     companion object {
         /** How long the widget waits for the steps before drawing with what it has (a broadcast gets about 10 s). */
         private const val SYNC_MS = 7_000L
@@ -72,18 +81,31 @@ class RoadWidget : AppWidgetProvider() {
             val j = c.trip.state.value ?: return
             if (!j.started) return
             val r = context.localized()
-            val bmp = render(r, Words(r, r.ru, c.world), c.world, c.travel, j)
+            val words = Words(r, r.ru, c.world)
             val open = PendingIntent.getActivity(
                 context, 0, Intent(context, MainActivity::class.java),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
             )
             for (id in ids) {
+                val bmp = render(r, words, c.world, c.travel, j, height(manager, id))
                 val views = RemoteViews(context.packageName, R.layout.widget_road)
                 views.setImageViewBitmap(R.id.widget_image, bmp)
                 views.setOnClickPendingIntent(R.id.widget_image, open)
                 manager.updateAppWidget(id, views)
             }
             atMidnight(context, ids)
+        }
+
+        /**
+         * How tall to draw for this widget, at [W] wide: its cells' own shape (portrait size), so the card fills
+         * them instead of floating in empty space above and below. Clamped to shapes the layout reads well in.
+         */
+        private fun height(manager: AppWidgetManager, id: Int): Int {
+            val o = runCatching { manager.getAppWidgetOptions(id) }.getOrNull() ?: return H
+            val w = o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+            val h = o.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
+            if (w <= 0 || h <= 0) return H
+            return (W * h / w).coerceIn(MIN_H, MAX_H)
         }
 
         /** The steps are today's, so the widget redraws itself just after midnight even if nothing else wakes it. */
@@ -108,13 +130,16 @@ class RoadWidget : AppWidgetProvider() {
         private const val WASH = 0xFFD9A85F.toInt()
 
         private const val W = 1080
+        /** The height the words are laid out for; a taller card centres them and lets the map grow. */
         private const val H = 400
+        private const val MIN_H = 330
+        private const val MAX_H = 760
 
         /** Degrees of latitude from the traveller to the map's top and bottom edges. */
         private const val SPAN = 3.2
 
-        fun render(r: Context, w: Words, world: World, travel: Travel, j: Journey): Bitmap {
-            val out = Bitmap.createBitmap(W, H, Bitmap.Config.ARGB_8888)
+        fun render(r: Context, w: Words, world: World, travel: Travel, j: Journey, height: Int = H): Bitmap {
+            val out = Bitmap.createBitmap(W, height, Bitmap.Config.ARGB_8888)
             val cv = Canvas(out)
             val bold = ResourcesCompat.getFont(r, R.font.cormorant_bold) ?: Typeface.SERIF
             val semi = ResourcesCompat.getFont(r, R.font.cormorant_semibold) ?: Typeface.SERIF
@@ -126,19 +151,29 @@ class RoadWidget : AppWidgetProvider() {
             }
 
             // The card: paper in a heavy rule and a hairline inside it, as on the app's framed sheets.
-            val card = RectF(4f, 4f, W - 4f, H - 4f)
+            val hf = height.toFloat()
+            val card = RectF(4f, 4f, W - 4f, hf - 4f)
             cv.drawRoundRect(card, 18f, 18f, paint(PAPER))
             cv.drawRoundRect(card, 18f, 18f, paint(INK, 4f))
-            cv.drawRoundRect(RectF(16f, 16f, W - 16f, H - 16f), 10f, 10f, paint(INK and 0x99FFFFFF.toInt(), 1.6f))
+            cv.drawRoundRect(RectF(16f, 16f, W - 16f, hf - 16f), 10f, 10f, paint(INK and 0x99FFFFFF.toInt(), 1.6f))
 
             // The map on the right, in its own frame.
-            val m = RectF(W - 32f - 330f, 32f, W - 32f, H - 32f)
+            // On a taller card the map widens a little too, so it doesn't turn into a strip.
+            val mapW = (330f * hf / H).coerceIn(330f, 460f)
+            val m = RectF(W - 32f - mapW, 32f, W - 32f, hf - 32f)
             map(cv, m, world, travel, j)
             cv.drawRect(m, paint(INK, 3f))
 
+            // The words are laid out for a card [H] tall: on a taller or lower one they sit in its middle,
+            // and on a low one a little smaller, so nothing runs off the edge.
+            val fit = (hf / H).coerceAtMost(1f)
+            cv.save()
+            cv.translate(0f, (hf - H * fit) / 2)
+            cv.scale(fit, fit, 0f, 0f)
+
             // The words on the left, fitted to the room beside the map.
             val x = 44f
-            val room = m.left - 28f - x
+            val room = (m.left - 28f) / fit - x
             fun text(t: String, y: Float, face: Typeface, size: Float, color: Int, spacing: Float = 0f) {
                 val p = paint(color).apply { typeface = face; textSize = size; letterSpacing = spacing }
                 val wd = p.measureText(t)
@@ -209,6 +244,7 @@ class RoadWidget : AppWidgetProvider() {
             cv.drawRect(x, by, x + room, by + 12, paint(PAPER2))
             cv.drawRect(x, by, x + room * (q.progress / q.target).toFloat().coerceIn(0f, 1f), by + 12, paint(if (done) RED else SEA))
             cv.drawRect(x, by, x + room, by + 12, paint(INK, 1.6f))
+            cv.restore()
             return out
         }
 
